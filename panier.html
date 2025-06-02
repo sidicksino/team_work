@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panier - SINO BOUR</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --primary-color: #2a2a2a;
+      --accent-color: #ff5a5f;
+      --background-color: #f8f9fa;
+      --text-color: #333;
+      --border-color: #eee;
+      --success-color: #28a745;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .cart-container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+    }
+
+    .cart-header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+      transition: all 0.3s ease;
+    }
+
+    .cart-item:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-details h2 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .cart-item-details p {
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .remove-item {
+      color: var(--accent-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .remove-item:hover {
+      background: rgba(255, 90, 95, 0.1);
+    }
+
+    .cart-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid var(--border-color);
+      padding-top: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .total {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
+    }
+
+    .clear-cart, .validate-order-btn {
+      background: linear-gradient(135deg, var(--accent-color), #ff6b6e);
+      color: #fff;
+      padding: 0.9rem 1.7rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .validate-order-btn {
+      background: linear-gradient(135deg, var(--success-color), #34b45e);
+      margin-top: 1.5rem;
+      display: block;
+      width: 100%;
+    }
+
+    .clear-cart:hover,
+    .validate-order-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Mobile Responsive: image + texte + bouton sur 1 ligne */
+    @media (max-width: 600px) {
+      .cart-item {
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .cart-item img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .cart-item-details {
+        flex: 1;
+      }
+
+      .cart-item-actions {
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .validate-order-btn {
+        font-size: 1rem;
+        padding: 0.9rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cart-container">
+    <div class="cart-header">
+      <h1>Votre Panier</h1>
+    </div>
+
+    <div id="cart-item"></div>
+    <div id="empty-cart" class="empty-cart">Votre panier est vide.</div>
+
+    <div id="cart-summary" class="cart-summary" style="display: none;">
+      <div class="total">Total : <span id="cart-total">0</span> FCFA</div>
+      <button class="clear-cart" onclick="viderPanier()">Vider le Panier</button>
+    </div>
+
+    <button class="validate-order-btn" onclick="validerCommande()">Valider la commande</button>
+  </div>
+
+  <script>
+    let panier = JSON.parse(localStorage.getItem('panier')) || [];
+	  
+	  function formatPrix(prix) {
+  return prix.toLocaleString('fr-FR', { minimumFractionDigits: 0 });
+}
+
+    function afficherPanier() {
+      const cartItemsDiv = document.getElementById('cart-item');
+      const emptyCartDiv = document.getElementById('empty-cart');
+      const cartSummaryDiv = document.getElementById('cart-summary');
+      const cartTotalSpan = document.getElementById('cart-total');
+
+      if (panier.length === 0) {
+        emptyCartDiv.style.display = 'block';
+        cartSummaryDiv.style.display = 'none';
+      } else {
+        emptyCartDiv.style.display = 'none';
+        cartSummaryDiv.style.display = 'flex';
+      }
+
+      let total = 0;
+      cartItemsDiv.innerHTML = '';
+
+		panier.forEach((produit, index) => {
+		  const prix = parseFloat(produit.prix) || 0;
+		  const quantite = parseInt(produit.quantite) || 1;
+		  const sousTotal = prix * quantite;
+		  total += sousTotal;
+
+		  const productDiv = document.createElement('div');
+		  productDiv.classList.add('cart-item');
+
+		  productDiv.innerHTML = `
+			<img src="${produit.image}" alt="${produit.titre || 'Produit'}">
+			<div class="cart-item-details">
+			  <h2>${produit.titre || 'Produit sans nom'}</h2>
+				<p>Taille / Stockage : ${produit.taille || "Standard"}</p>
+				<p>Couleur : ${produit.qualite || 'Standard'}</p>
+				<p>Quantité : ${quantite}</p>
+				<p>Prix unitaire : ${formatPrix(prix)} FCFA</p>
+				<p>Sous-total : ${formatPrix(sousTotal)} FCFA</p>
+			  <div class="cart-item-actions">
+				<button class="remove-item" onclick="supprimerDuPanier(${index})">Supprimer</button>
+			  </div>
+			</div>
+		  `;
+
+		  cartItemsDiv.appendChild(productDiv);
+		});
+
+      cartTotalSpan.textContent = formatPrix(total);
+    }
+
+    function supprimerDuPanier(index) {
+      panier.splice(index, 1);
+      localStorage.setItem('panier', JSON.stringify(panier));
+      afficherPanier();
+    }
+
+    function viderPanier() {
+      panier = [];
+      localStorage.setItem('panier', JSON.stringify(panier));
+      afficherPanier();
+    }
+
+	function validerCommande() {
+	  if (panier.length === 0) {
+		alert('Votre panier est vide. Ajoutez des produits avant de valider la commande.');
+	  } else {
+		// Sauvegarder le panier si besoin avant de rediriger
+		localStorage.setItem('panier', JSON.stringify(panier));
+
+		// Redirection vers le formulaire de commande
+		window.location.href = 'checkout.html';
+	  }
+	}
+
+
+    afficherPanier();
+  </script>
+
+</body>
+</html>

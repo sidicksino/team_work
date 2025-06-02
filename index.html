@@ -3,221 +3,2348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Section - INSTA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+    <title>SINO BOUR - Boutique en ligne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset et Base */
+        :root {
+            --primary: #ff4d4d;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --gray: #ddd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0rem 5%;
+            background: var(--primary);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo img {
+            height: 60px;
+			width: 70px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+			padding: 10px 20px;
+			border-radius: 5px;
+        }
+		/* Par défaut en mobile : le menu est caché */
+		.nav-menu {
+			display: none;
+			flex-direction: column;
+			gap: 1rem;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			width: 100%;
+			background: #fff;
+			padding: 1rem;
+			z-index: 1000;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		/* Quand le menu est actif (cliqué), on l’affiche */
+		.nav-menu.active {
+			display: flex;
+		}
+
+		/* Le bouton hamburger actif (animation X) */
+		.mobile-menu-toggle.active .bar:nth-child(1) {
+			transform: rotate(45deg) translate(5px, 5px);
+		}
+
+		.mobile-menu-toggle.active .bar:nth-child(2) {
+			opacity: 0;
+		}
+
+		.mobile-menu-toggle.active .bar:nth-child(3) {
+			transform: rotate(-45deg) translate(5px, -5px);
+		}
+
+        .nav-links a:hover {
+            color: var(--primary);
+			background-color: white;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--primary);
+            min-width: 500px;
+            padding: 1rem;
+            border-radius: 5px;
+            z-index: 1;
+			margin-top: 5px;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 0.5rem 10px;
+        }
+        
+        .cart-icon {
+            position: relative;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+		.cart-icon a{
+			color: white;
+			
+		}
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        
+        /* Menu mobile */
+		.mobile-menu-toggle {
+			display: none;
+			cursor: pointer;
+			color: white;
+			font-size: 1.5rem;
+		}
+
+		@media (max-width: 768px) {
+			.mobile-menu-toggle {
+				display: block;
+			}
+
+			.nav-links {
+				display: none;
+				flex-direction: column;
+				position: absolute;
+				top: 80px;
+				left: 0;
+				width: 100%;
+				background: var(--primary);
+				padding: 20px;
+				box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			}
+
+			.nav-links.active {
+				display: flex;
+			}
+
+			.dropdown-content {
+				position: static;
+				background: rgba(255, 255, 255, 0.1);
+			}
+		}
+
+        /* Hero Section */
+		.hero {
+			position: relative;
+			height: 80vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			color: white;
+			margin-top: 65px;
+			overflow: hidden;
+		}
+
+		#hero-video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover; /* La vidéo couvre l'intégralité de la section */
+			z-index: -1;
+		}
+
+		.hero-content {
+			max-width: 800px;
+		}
+
+		.cta-button {
+			display: inline-block;
+			padding: 1rem 2.5rem;
+			background: var(--primary);
+			color: white;
+			text-decoration: none;
+			font-weight: 600;
+			transition: transform 0.3s, box-shadow 0.3s;
+			margin-top: 30rem;
+		}
+
+		.cta-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);
+		}
+
+		/* Media query pour petits écrans */
+		@media (max-width: 768px) {
+			#hero-video {
+				object-fit: contain; /* Pour éviter de découper la vidéo sur petit écran */
+			}
+
+			.hero-content h1 {
+				font-size: 2.5rem; /* Ajuste la taille du texte sur les petits écrans */
+			}
+
+			.hero-content p {
+				font-size: 1rem; /* Réduit la taille du texte */
+			}
+			.hero{
+				margin-top: -110px;
+			}
+			.cta-button{
+				margin-top: 20rem;
+			}
+		}
+
+        /* Products Section */
+        .products-section {
+            padding: 2rem 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--gray);
+            background: transparent;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .product-image {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        
+        .product-actions {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            transition: bottom 0.3s;
+        }
+        
+        .product-card:hover .product-actions {
+            bottom: 20px;
+        }
+        
+        .quick-view, .add-to-wishlist {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-view {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .add-to-wishlist {
+            background: white;
+            color: var(--dark);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background: var(--primary);
+        }
+        
+        /* Modal */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 5% auto;
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1;
+        }
+        
+        .modal-image {
+            flex: 1;
+            min-height: 500px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-image img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+        
+        .modal-details {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-description {
+            margin-bottom: 2rem;
+            color: #666;
+        }
+        
+        .size-selector {
+            margin-bottom: 2rem;
+        }
+        
+        .size-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .size-option {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .size-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--gray);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 0.5rem;
+        }
+        
+        .modal-add-to-cart {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .modal-add-to-cart:hover {
+            background: #e63939;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5%;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .newsletter-btn {
+            padding: 0 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .modal-content {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .modal-image {
+                min-height: 300px;
+            }
+			.products-section{
+				margin-top: -5rem;
+			}
+			.product-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
+				gap: 1rem;
+			}
+			.product-image{
+				height: 200px;
+			}
+			.product-info {
+				padding: 1rem;
+			}
+        }
+        @media (max-width: 576px) {
+            .hero {
+                height: 80vh;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .filters {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+				padding: 0.3rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+		    /* Styles existants conservés */
+        :root {
+            --primary: #ff4d4d;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --darker: #111;
+            --gray: #ddd;
+        }
+
+        /* FOOTER SUPER STRUCTURE */
+        .super-footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: white;
+            border-top: 3px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 5% 2rem;
+        }
+
+        /* GRID PRINCIPALE */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* BLOC À PROPOS */
+        .footer-about {
+            position: relative;
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo img {
+            height: 70px;
+            filter: brightness(0) invert(1);
+        }
+
+        .brand-slogan {
+            font-style: italic;
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .trust-badge {
+            background: rgba(255,255,255,0.05);
+            padding: 0.8rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1 1 160px;
+        }
+
+        .trust-badge i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .trust-badge span {
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        /* BLOCS DE LIENS */
+        .footer-block h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-block h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-links i {
+            color: var(--primary);
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* NEWSLETTER */
+        .newsletter-box {
+            margin-top: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.9rem 1rem;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px 0 0 5px;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: #ccc;
+        }
+
+        .newsletter-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 0 5px 5px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .newsletter-btn:hover {
+            background: #e63939;
+        }
+
+        .privacy-text {
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* RÉSEAUX SOCIAUX */
+        .social-media {
+            margin-top: 2rem;
+        }
+
+        .social-title {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .instagram { background: #E1306C; }
+        .tiktok { background: #000; }
+        .youtube { background: #FF0000; }
+        .pinterest { background: #E60023; }
+
+        /* SECTION INFERIEURE */
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-methods img {
+            height: 35px;
+            filter: none;
+            transition: all 0.3s;
+        }
+
+        .payment-methods img:hover {
+            filter: grayscale(10%) brightness(3);
+            transform: translateY(-10px);
+        }
+
+        .legal-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legal-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color 0.3s;
+        }
+
+        .legal-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: #777;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .copyright strong {
+            color: #ddd;
+        }
+
+        /* BOUTON RETOUR EN HAUT */
+        .back-to-top {
+            position:fixed;
+            top: 90%;
+            right: 30px;
+        }
+
+        .back-to-top a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .back-to-top a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+		.q{
+			display: flex;
+			justify-content: space-between;
+			padding: 0px 0px;
+		}
+
+        /* VERSION MOBILE AVANCÉE */
+        @media (max-width: 768px) {
+            .footer-container {
+                padding: 3rem 5% 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* SECTION FLEX POUR NAVIGATION/SERVICE CLIENT */
+            .mobile-flex-section {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .footer-block {
+                
+                min-width: 160px;
+                background: rgba(255,255,255,0.05);
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .footer-block h3 {
+                cursor: pointer;
+                margin-bottom: 20px;
+                padding-bottom: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+				font-size: 0.8rem;
+            }
+			.q{
+				gap:1rem;
+			}
+
+            .footer-block h3 .mobile-toggle-icon {
+                transition: transform 0.3s;
+            }
+
+            .footer-block.active h3 .mobile-toggle-icon {
+                transform: rotate(180deg);
+            }
+
+            .footer-links {
+                max-height: 100%;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                padding-top: 0;
+                margin-top: 0;
+            }
+
+            .footer-block.active .footer-links {
+                max-height: 500px;
+                padding-top: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            .footer-links li {
+                margin-bottom: 0.8rem;
+            }
+
+            .footer-links a {
+                font-size: 0.85rem;
+            }
+
+            .back-to-top {
+                right: 20px;
+                top: -15px;
+            }
+
+            .back-to-top a {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+			.footer-block h3 i{
+				display: none;
+			}
+			.w{
+				display: flex;
+				gap:2rem;
+			}
+        }
+
+        @media (max-width: 480px) {
+            .mobile-flex-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer-block {
+                flex: 1 1 100%;
+            }
+
+            .trust-badge {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* ANIMATION D'APPARITION */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .super-footer {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s 0.3s forwards;
+        }
+		
+		
+		
+		
+		.product-modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(6px);
+			z-index: 3000;
+			overflow-y: auto;
+			padding: 3rem 1rem;
+			animation: fadeIn 0.4s ease-in-out;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+
+		.modal-content {
+			max-width: 950px;
+			margin: auto;
+			background: #fff;
+			border-radius: 16px;
+			overflow: hidden;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+			display: flex;
+			flex-direction: row;
+			animation: slideIn 0.4s ease;
+			position: relative;
+		}
+
+		@keyframes slideIn {
+			from { opacity: 0; transform: translateY(40px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		.modal-image {
+			flex: 1;
+			background: #f9f9f9;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem;
+		}
+
+		.modal-image img {
+			max-width: 100%;
+			max-height: 400px;
+			object-fit: contain;
+			border-radius: 10px;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+		}
+		.modal-image {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.main-preview img {
+			max-width: 100%;
+			max-height: 400px;
+			object-fit: contain;
+			border-radius: 10px;
+			box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+		}
+
+		.thumbnails {
+			display: flex;
+			justify-content: center;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+			flex-wrap: wrap;
+		}
+
+		.thumbnails img {
+			width: 70px;
+			height: 70px;
+			object-fit: cover;
+			border-radius: 6px;
+			border: 2px solid transparent;
+			cursor: pointer;
+			transition: border 0.3s;
+		}
+
+		.thumbnails img:hover, .thumbnails img.active {
+			border: 2px solid var(--primary);
+		}
+
+
+		.modal-details {
+			flex: 1;
+			padding: 2rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		.modal-title {
+			font-size: 1.8rem;
+			font-weight: bold;
+			margin-bottom: 1rem;
+			color: var(--dark);
+		}
+
+		.modal-price {
+			font-size: 1.5rem;
+			color: var(--primary);
+			font-weight: bold;
+			margin-bottom: 1.2rem;
+		}
+
+		.modal-description {
+			color: #666;
+			line-height: 1.6;
+			font-size: 0.95rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.size-selector h4 {
+			font-weight: 500;
+			margin-bottom: 0.5rem;
+		}
+
+		.size-options {
+			display: flex;
+			gap: 0.6rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.size-option {
+			padding: 10px 14px;
+			border: 1px solid var(--gray);
+			border-radius: 6px;
+			cursor: pointer;
+			font-size: 0.9rem;
+			transition: all 0.3s ease;
+		}
+
+		.size-option.selected {
+			background: var(--primary);
+			color: white;
+			border-color: var(--primary);
+		}
+
+		.quantity-selector {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.quantity-btn {
+			background: var(--gray);
+			border: none;
+			width: 32px;
+			height: 32px;
+			font-size: 1.1rem;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background 0.3s;
+		}
+
+		.quantity-btn:hover {
+			background: #ccc;
+		}
+
+		.quantity-input {
+			width: 50px;
+			height: 32px;
+			text-align: center;
+			border: 1px solid var(--gray);
+			border-radius: 4px;
+		}
+
+		.modal-add-to-cart {
+			padding: 0.9rem;
+			background: var(--primary);
+			color: white;
+			border: none;
+			border-radius: 8px;
+			font-size: 1rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: background 0.3s ease;
+		}
+
+		.modal-add-to-cart:hover {
+			background: #e63939;
+		}
+
+		/* Bouton de fermeture */
+		.close-modal {
+			position: absolute;
+			top: 20px;
+			right: 25px;
+			font-size: 1.8rem;
+			color: #999;
+			cursor: pointer;
+			transition: color 0.3s;
+			z-index: 10;
+		}
+
+		.close-modal:hover {
+			color: var(--primary);
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.modal-content {
+				flex-direction: column;
+				max-width: 95%;
+			}
+
+			.modal-image {
+				height: auto;
+				padding: 1rem;
+			}
+
+			.modal-details {
+				padding: 1.5rem;
+			}
+
+			.modal-title {
+				font-size: 1.5rem;
+			}
+
+			.modal-price {
+				font-size: 1.3rem;
+			}
+
+			.modal-add-to-cart {
+				font-size: 0.95rem;
+			}
+		}
+		.cart-added {
+			animation: bounce 0.4s ease;
+		}
+
+		@keyframes bounce {
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+		}
+
+	</style>
 </head>
 <body>
-    <header class="hero" id="home">
-        <nav id="main-nav">
-            <div class="logo">
-                <img src="assets/images/L2.png" alt="Logo INSTA">
-                <span><a href="login_ajoute_notes.php">INSTA</a></span>
-            </div>
-            <div class="menu-toggle" id="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="active">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="programs.html">Programmes</a></li>
-                <li><a href="library.html">Bibliothèque</a></li>
-                <li class="dropdown">
-                    <a href="#">Filière</a>
-                    <ul class="submenu">
-                    <li><a href="GI.html">Génie Informatique (GI)</a></li>
-                    <li><a href="GM.html">Génie Mécanique (GM)</a></li>
-                    <li><a href="GE.html">Génie Électrique (GE)</a></li>
-                    <li><a href="GEN.html">Génie Énergétique (GEN)</a></li>
-                    <li><a href="SBMPA.html">Science Bioméd & Pharma/Ar (SBMPA)</a></li>
-                    <li><a href="SBMPF.html">Science Bioméd & Pharma/Fr (SBMPF)</a></li>
-                    <li><a href="STE.html">Science & Technique Élevage (STE)</a></li>
-                    <li><a href="TLC.html">Télécommunication & Multimédia (TLC)</a></li>
-                    </ul>
-                </li>
-                <li><a href="inscription.html">Concours</a></li>
-
-                <!-- Menu déroulant "Filières" -->
-                <li class="dropdown">
-                    <a href="#">Contact</a>
-                    <ul class="submenu">
-                        <li><a href="contact.html">Contacter Nous</a></li>
-                        <li><a href="Justification_d'absence.html">Justification d'absence</a></li>
-                        <li><a href="requete.html">Dépôt des requêtes</a></li>
-                    </ul>
-                </li>
-                <li><a href="laboratory.html">Laboratoires</a></li>
-            </ul>
-            <a href="login.php" class="btn" id="login-btn">Connexion</a>
-        </nav>
-        <div class="overlay">
-            <div class="title-decoration">
-                <i class="fas fa-graduation-cap"></i> 
-            </div>
-            <h2 class="features-title">Bienvenue à l'INSTA</h2>
-            <h1>Institut National des Sciences et Techniques d'Abéché</h1>
-            <a href="login.php" class="btn">Se connecter</a>
-            <div class="indicators">
-                <span></span>
-                <span class="actives"></span>
-                <span></span>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/images/logo3.png" alt="sino bour">
         </div>
-    </header>
-
-    <main>
-        <section class="welcome">
-            <div class="container">
-                <div class="welcome-text">
-                    <h2><i class="fas fa-university"></i> Bienvenue à l'INSTA</h2>
-                    <p>L'Institut National des Sciences et Techniques d'Abéché est un établissement d'excellence dédié à 
-                        la formation des futures élites scientifiques et techniques du Tchad.
-                         Notre engagement envers l'excellence académique et la recherche 
-                         innovante fait de nous un acteur majeur de l'enseignement supérieur.</p>
+        
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li class="dropdown">
+                <a href="#">Boutique <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="tshirts.html">Montres</a>
+                    <a href="chaussures.html">T-Shirts</a>
+                    <a href="montres.html">Chaussures</a>
                 </div>
-                <div class="welcome-image">
-                    <img src="assets/images/ACCUEIL.jpg" alt="Campus de l'INSTA">
-                </div>
-            </div>
-        </section>
-		<section class="testimonials">
-    <div class="container">
-        <h2>Témoignages</h2>
-        <p class="testimonials-description">Découvrez ce que nos étudiants et partenaires disent de nous.</p>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"L'INSTA m'a offert une formation de qualité et des opportunités incroyables. Je recommande vivement !"</p>
-                </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/SA2.jpg" alt="Étudiant 1">
-                    <h3>Sidick Abdoulaye</h3>
-                    <p>Diplômé en Génie Civil</p>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"Les enseignants sont très compétents et les laboratoires bien équipés. Une expérience enrichissante !"</p>
-                </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/adam1.jpg" alt="Étudiant 2">
-                    <h3>Adam Abdraman</h3>
-                    <p>Étudiante en Informatique</p>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"Collaborer avec l'INSTA a été une expérience professionnelle très enrichissante. Un partenaire de confiance."</p>
-                </div>
-                <div class="testimonial-author">
-                    <img src="assets/images/DR%20TAHA.jpg" alt="Partenaire 1">
-                    <h3>M. Hassan Ibrahim</h3>
-                    <p>Partenaire Académique</p>
-                </div>
-            </div>
+            </li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">À Propos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <div class="cart-icon">
+            <a href="panier.html">
+				<i class="fas fa-shopping-cart"></i>
+			</a>
+            <span class="cart-count">0</span>
         </div>
-    </div>
-</section>
-		
-		<section>
-			<div class="fixes">
-				<div class="stats-section">
-					<div class="DD">
-						<div class="stat" os-animation="fadeInUp">
-							<h1 class="counter" data-target="540">0</h1>
-							<p>Étudiants Inscrits</p>
-						</div>
-						<div class="stat" os-animation="fadeInUp">
-							<h1 class="counter" data-target="58">0</h1>
-							<p>Enseignants Qualifiés</p>
-						</div>
-						<div class="stat" os-animation="fadeInUp">
-							<h1 class="counter" data-target="2306">0</h1>
-							<p>Diplômés</p>
-						</div>
-						<div class="stat" os-animation="fadeInUp">
-							<h1 class="counter" data-target="12">0</h1>
-							<p>Partenaires Académiques</p>
-						</div>
+		<div class="mobile-menu-toggle">
+			<i class="fas fa-bars"></i>
+		</div>
+	</nav>
+
+    <!-- Hero Section -->
+	<section class="hero">
+		<video autoplay muted loop id="hero-video">
+			<source src="assets/images/sidick.mp4" type="video/mp4">
+			Ton navigateur ne prend pas en charge la vidéo.
+		</video>
+		<div class="hero-content">
+			<a href="admin.html" class="cta-button">Découvrir la collection</a>
+		</div>
+	</section>
+
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <h2 class="section-title">NOS COLLECTION</h2>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="montres">Montres</button>
+            <button class="filter-btn" data-filter="tshirts">T-Shirts</button>
+            <button class="filter-btn" data-filter="shoes">Chaussures</button>
+			<button class="filter-btn" data-filter="phones">Téléphones</button>
+        </div>
+        
+        <div class="product-grid">
+            <!-- Produit 1 Montre -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="1">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">25 000 FCFA</div>
+                    <button class="add-to-cart" data-id="1">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <img src="assets/images/montre10.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="2">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="2">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre11.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="3">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="3">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/t-shirt.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="4">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="4">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <img src="assets/images/t-shirt2.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="5">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="5">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/t-shirt3.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="6">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="6">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/shoes10.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="7">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="7">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <img src="assets/images/shoes11.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="8">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="8">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/shoes12.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="9">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="9">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre5.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="10">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="10">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <img src="assets/images/montre6.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="11">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="11">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre7.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="12">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="12">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/t-shirt4.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="13">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="13">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <img src="assets/images/t-shirt5.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="14">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="14">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="tshirts">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/t-shirt6.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="15">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">T-Shirt</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="15">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/shoes9.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="16">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="16">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <img src="assets/images/shoes8.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="17">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="17">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="shoes">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/shoes7.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="18">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chaussure</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="18">Ajouter au panier</button>
+                </div>
+            </div>
+			
+			
+			<!-------------------->
+            <!-- Produit 1 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre8.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="20">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="20">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <img src="assets/images/montre9.jpg" alt="T-Shirt Blanc Femme">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="21">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="21">Ajouter au panier</button>
+                </div>
+			</div>
+			<!-- Produit 3 -->
+            <div class="product-card" data-category="montres">
+                <div class="product-image">
+                    <span class="product-badge">Nouveau</span>
+                    <img src="assets/images/montre2.jpg" alt="T-Shirt Basic Noir">
+                    <div class="product-actions">
+                        <button class="quick-view" data-id="23">Voir</button>
+                        <button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Montre</h3>
+                    <div class="product-price">5 000 FCFA</div>
+                    <button class="add-to-cart" data-id="23">Ajouter au panier</button>
+                </div>
+            </div>
+			<!-- Téléphone 1 -->
+			<div class="product-card" data-category="phones">
+				<div class="product-image">
+					<span class="product-badge">Nouveau</span>
+					<img src="assets/images/phone.jpg" alt="Smartphone Samsung Galaxy">
+					<div class="product-actions">
+						<button class="quick-view" data-id="30">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
 					</div>
-					<button class="learn-more">En savoir plus sur nous</button>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">Samsung Galaxy A12</h3>
+					<div class="product-price">60 000 FCFA</div>
+					<button class="add-to-cart" data-id="30">Ajouter au panier</button>
 				</div>
 			</div>
-		</section>
 
-        <section class="missions">
-            <div class="container">
-                <h2>Nos Missions</h2>
-                <div class="mission-cards">
-                    <div class="mission-card">
-                        <i class="fas fa-graduation-cap"></i>
-                        <h3>Formation</h3>
-                        <p>Offrir une formation de qualité adaptée aux besoins du marché du travail</p>
+			<!-- Téléphone 2 -->
+			<div class="product-card" data-category="phones" data-title="iPhone 15 Pro" data-price-64="No Valide" data-price-128="890000" data-price-256="1000000">
+				<div class="product-image">
+					<img src="assets/images/iphone15promax.jpg" alt="iPhone 15 Pro max">
+					<div class="product-actions">
+						<button class="quick-view" data-id="31">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 15 Pro Max</h3>
+					<div class="product-price">890 000 FCFA</div>
+					<button class="add-to-cart" data-id="31">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 15 Pro" data-price-64="No Valide" data-price-128="785000" data-price-256="940000">
+				<div class="product-image">
+					<img src="assets/images/iphone15pro.jpg" alt="iPhone 15 Pro">
+					<div class="product-actions">
+						<button class="quick-view" data-id="32">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 15 Pro</h3>
+					<div class="product-price">785 000 FCFA</div>
+					<button class="add-to-cart" data-id="32">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 15 Plus" data-price-64="No Valide" data-price-128="637000" data-price-256="760000">
+				<div class="product-image">
+					<img src="assets/images/iphone15plus.jpg" alt="iPhone 15 Plus">
+					<div class="product-actions">
+						<button class="quick-view" data-id="33">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 15 Plus</h3>
+					<div class="product-price">637 000 FCFA</div>
+					<button class="add-to-cart" data-id="33">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 15" data-price-64="No Valide" data-price-128="500000" data-price-256="650000">
+				<div class="product-image">
+					<img src="assets/images/iphone15.jpg" alt="iPhone 15">
+					<div class="product-actions">
+						<button class="quick-view" data-id="34">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 15</h3>
+					<div class="product-price">500 000 FCFA</div>
+					<button class="add-to-cart" data-id="34">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 16 Pro Max" data-price-64="No Valide" data-price-128="No Valude" data-price-256="1100000">
+				<div class="product-image">
+					<img src="assets/images/iphone.jpg" alt="iPhone 16 Pro Max">
+					<div class="product-actions">
+						<button class="quick-view" data-id="35">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 16 Pro Max</h3>
+					<div class="product-price">1 100 000 FCFA</div>
+					<button class="add-to-cart" data-id="35">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 16 Pro" data-price-64="No Valide" data-price-128="800000" data-price-256="950000">
+				<div class="product-image">
+					<img src="assets/images/iphon16e.jpg" alt="iPhone 16 Pro">
+					<div class="product-actions">
+						<button class="quick-view" data-id="36">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 16 Pro</h3>
+					<div class="product-price">800 000 FCFA</div>
+					<button class="add-to-cart" data-id="36">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 16 Plus" data-price-64="No Valide" data-price-128="770000" data-price-256="860000">
+				<div class="product-image">
+					<img src="assets/images/iphon16pluse.jpg" alt="iPhone 16 Plus">
+					<div class="product-actions">
+						<button class="quick-view" data-id="37">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 16 Plus</h3>
+					<div class="product-price">770 000 FCFA</div>
+					<button class="add-to-cart" data-id="37">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 16" data-price-64="No Valide" data-price-128="650000" data-price-256="760000">
+				<div class="product-image">
+					<img src="assets/images/iphon116e.jpg" alt="iPhone 16">
+					<div class="product-actions">
+						<button class="quick-view" data-id="38">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 16</h3>
+					<div class="product-price">650 000 FCFA</div>
+					<button class="add-to-cart" data-id="38">Ajouter au panier</button>
+				</div>
+			</div>
+			<div class="product-card" data-category="phones" data-title="iPhone 16e" data-price-64="No Valide" data-price-128="540000" data-price-256="760000">
+				<div class="product-image">
+					<img src="assets/images/iphon16ee.jpg" alt="iPhone 16e">
+					<div class="product-actions">
+						<button class="quick-view" data-id="39">Voir</button>
+						<button class="add-to-wishlist"><i class="far fa-heart"></i></button>
+					</div>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title">iPhone 16e</h3>
+					<div class="product-price">540 000 FCFA</div>
+					<button class="add-to-cart" data-id="39">Ajouter au panier</button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Footer -->
+<!-- SUPER FOOTER CHAD TEXTILE -->
+    <footer class="super-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <!-- BLOC À PROPOS -->
+                <div class="footer-about">
+					<div class="w">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo3.png" alt="CHAD TEXTILE">
                     </div>
-                    <div class="mission-card">
-                        <i class="fas fa-flask"></i>
-                        <h3>Recherche</h3>
-                        <p>Conduire des recherches innovantes pour le développement du pays</p>
+                    <p class="brand-slogan">L'excellence textile africaine. Des créations uniques pour un style affirmé.</p>
+					</div>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Paiement sécurisé</span>
+                        </div>
+                        <div class="trust-badge">
+                            <i class="fas fa-truck"></i>
+                            <span>Livraison rapide</span>
+                        </div>
                     </div>
-                    <div class="mission-card">
-                        <i class="fas fa-handshake"></i>
-                        <h3>Partenariat</h3>
-                        <p>Développer des collaborations nationales et internationales</p>
+                </div>
+				<div class="q">
+					<!-- BLOC NAVIGATION -->
+					<div class="footer-block">
+						<h3>
+							Navigation
+							<i class="fas fa-chevron-down mobile-toggle-icon"></i>
+						</h3>
+						<ul class="footer-links">
+							<li><a href="#"><i class="fas fa-chevron-right"></i> Nouveautés</a></li>
+							<li><a href="#"><i class="fas fa-chevron-right"></i> Best-sellers</a></li>
+							<li><a href="#"><i class="fas fa-chevron-right"></i> Collections</a></li>
+							<li><a href="#"><i class="fas fa-chevron-right"></i> Lookbook</a></li>
+							<li><a href="#"><i class="fas fa-chevron-right"></i> Promotions</a></li>
+						</ul>
+					</div>
+
+					<!-- BLOC SERVICE CLIENT -->
+					<div class="footer-block">
+						<h3>
+							Service Client
+							<i class="fas fa-chevron-down mobile-toggle-icon"></i>
+						</h3>
+						<ul class="footer-links">
+							<li><a href="#"><i class="far fa-question-circle"></i> Centre d'aide</a></li>
+							<li><a href="#"><i class="fas fa-exchange-alt"></i> Retours gratuits</a></li>
+							<li><a href="#"><i class="fas fa-phone-alt"></i> Nous contacter</a></li>
+							<li><a href="#"><i class="fas fa-shipping-fast"></i> Suivi de commande</a></li>
+							<li><a href="#"><i class="fas fa-ruler-combined"></i> Guide des tailles</a></li>
+						</ul>
+					</div>
+				</div>
+
+                <!-- BLOC NEWSLETTER -->
+                <div class="footer-block">
+                    <h3>Newsletter</h3>
+                    <p>Soyez les premiers informés de nos nouveautés et offres exclusives.</p>
+                    
+                    <div class="newsletter-box">
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Votre email" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                        <p class="privacy-text">
+                            <i class="fas fa-lock"></i> Vos données sont protégées
+                        </p>
+                    </div>
+
+                    <div class="social-media">
+                        <h4 class="social-title">Suivez-nous</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-icon pinterest"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-		
-    </main>
 
-<footer>
-    <div class="container">
-        <div class="footer-content">
-            <!-- Section Contact -->
-            <div class="footer-contact">
-                <h3>Contact</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Abéché, Tchad</p>
-                <p><i class="fas fa-phone"></i> +235 95 61 91 07</p>
-                <p><i class="fas fa-envelope"></i> contact@insta.td</p>
-            </div>
+            <!-- SECTION INFERIEURE -->
+            <div class="footer-bottom">
+                <div class="payment-methods">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="Mastercard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" alt="PayPal">
+                    <img src="https://cdn-icons-png.flaticon.com/512/888/888870.png" alt="Apple Pay">
+                </div>
 
-            <!-- Section Départements -->
-            <div class="footer-departments">
-                <h3>Départements</h3>
-                <ul>
-                    <li><a href="GI.html">Génie Informatique (GI)</a></li>
-                    <li><a href="GM.html">Génie Mécanique (GM)</a></li>
-                    <li><a href="GE.html">Génie Électrique (GE)</a></li>
-                    <li><a href="GEN.html">Génie Énergétique (GEN)</a></li>
-                    <li><a href="SBMPA.html">Science Bioméd & Pharma/Ar (SBMPA)</a></li>
-                    <li><a href="SBMPF.html">Science Bioméd & Pharma/Fr (SBMPF)</a></li>
-                    <li><a href="STE.html">Science & Technique Élevage (STE)</a></li>
-                    <li><a href="TLC.html">Télécommunication & Multimédia (TLC)</a></li>
-                </ul>
-            </div>
+                <div class="legal-links">
+                    <a href="#">CGV</a>
+                    <span>•</span>
+                    <a href="#">Mentions légales</a>
+                    <span>•</span>
+                    <a href="#">Confidentialité</a>
+                    <span>•</span>
+                    <a href="#">Cookies</a>
+                </div>
 
-            <!-- Section Réseaux sociaux -->
-            <div class="footer-social">
-                <h3>Suivez-nous</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                <div class="copyright">
+                    <p>© 2024 <strong>SINO BOUR</strong> - Tous droits réservés | Made with <i class="fas fa-heart" style="color: var(--primary);"></i> in Chad</p>
                 </div>
             </div>
         </div>
 
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>&copy; 2025 Institut National des Sciences et Techniques d'Abéché. Tous droits réservés.</p>
-        </div>
-    </div>
-</footer>
-	<!-- Bouton "Retour en haut" -->
-	<button id="topButton" title="Retour en haut">↑</button>
-<script src="assets/js/script.js"></script>
-</body>
+        <!-- BOUTON RETOUR EN HAUT -->
+
+    </footer>
+	<div class="back-to-top">
+		<a href="#top" title="Retour en haut"><i class="fas fa-arrow-up"></i></a>
+	</div>
+	<!-- Modal Quick View -->
+	<div class="product-modal">
+		<div class="modal-content">
+			<span class="close-modal">&times;</span>
+				<div class="modal-image">
+					<div class="main-preview">
+						<img id="modal-product-image" src="" alt="">
+					</div>
+					<div class="thumbnails">
+						<!-- Les miniatures vont être injectées dynamiquement en JS -->
+					</div>
+				</div>
+			<div class="modal-details">
+				<h2 class="modal-title" id="modal-product-title"></h2>
+				<div class="modal-price" id="modal-product-price"></div>
+				<p class="modal-description">Description du produit non disponible pour le moment.</p>
+
+				<!-- Taille pour T-Shirt -->
+				<div class="size-selector size-tshirt">
+					<h4>Taille :</h4>
+					<div class="size-options">
+						<div class="size-option">XS</div>
+						<div class="size-option">S</div>
+						<div class="size-option selected">M</div>
+						<div class="size-option">L</div>
+						<div class="size-option">XL</div>
+					</div>
+					<h4 style="margin-top: 1rem;">Couleur :</h4>
+					<div class="size-options color-options">
+						<div class="size-option selected">Noir</div>
+						<div class="size-option">Gris</div>
+						<div class="size-option">Or</div>
+					</div>
+				</div>
+
+				<!-- Taille pour Chaussures -->
+				<div class="size-selector size-shoes" style="display:none;">
+					<h4>Pointure :</h4>
+					<div class="size-options">
+						<div class="size-option">39</div>
+						<div class="size-option">40</div>
+						<div class="size-option selected">41</div>
+						<div class="size-option">42</div>
+						<div class="size-option">43</div>
+					</div>
+					<h4 style="margin-top: 1rem;">Couleur :</h4>
+					<div class="size-options color-options">
+						<div class="size-option selected">Noir</div>
+						<div class="size-option">Gris</div>
+						<div class="size-option">Or</div>
+					</div>
+				</div>
+
+				<!-- Taille pour Montres -->
+				<div class="size-selector size-watch" style="display:none;">
+					<h4>Poignet :</h4>
+					<div class="size-options">
+						<div class="size-option selected" style="width: 75px;">Standard</div>
+						<div class="size-option">Large</div>
+						<div class="size-option">XL</div>
+					</div>
+					<h4 style="margin-top: 1rem;">Couleur :</h4>
+					<div class="size-options color-options">
+						<div class="size-option selected">Noir</div>
+						<div class="size-option">Gris</div>
+						<div class="size-option">Or</div>
+					</div>
+				</div>
+
+
+				<div class="quantity-selector">
+					<button class="quantity-btn">-</button>
+					<input type="number" value="1" min="1" class="quantity-input">
+					<button class="quantity-btn">+</button>
+				</div>
+				
+				<!-- Détails pour les téléphones -->
+				<div class="size-selector size-phone" style="display:none;">
+					<h4>Stockage :</h4>
+					<div class="size-options storage-options">
+						<div class="size-option" data-price="60000" style="width: 75px;">64 Go</div>
+						<div class="size-option selected" data-price="75000" style="width: 80px;">128 Go</div>
+						<div class="size-option" data-price="90000" style="width: 80px;">256 Go</div>
+					</div>
+
+					<h4 style="margin-top: 1rem;">Couleur :</h4>
+					<div class="size-options color-options">
+						<div class="size-option selected">Noir</div>
+						<div class="size-option">Gris</div>
+						<div class="size-option">Or</div>
+					</div>
+				</div>
+
+
+
+				<button class="modal-add-to-cart">Ajouter au panier</button>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+<script>
+// Menu mobile
+const menuToggle = document.querySelector('.mobile-menu-toggle');
+const navMenu = document.querySelector('.nav-links');
+menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+});
+
+// Filtres produits
+const filterButtons = document.querySelectorAll('.filter-btn');
+const productCards = document.querySelectorAll('.product-card');
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter');
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        productCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            card.style.display = (filter === 'all' || category === filter) ? 'block' : 'none';
+        });
+    });
+});
+
+// Scroll top
+document.querySelector('.back-to-top a').addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Accordéons footer mobile
+document.querySelectorAll('.footer-block h3').forEach(header => {
+    header.addEventListener('click', function () {
+        if (window.innerWidth <= 768) {
+            this.parentElement.classList.toggle('active');
+        }
+    });
+});
+
+// Footer animation
+document.addEventListener('DOMContentLoaded', () => {
+    const footer = document.querySelector('.super-footer');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    observer.observe(footer);
+});
+
+// Variables globales panier
+let cartCount = 0;
+const cartIcon = document.querySelector('.cart-icon');
+const cartCountElement = document.querySelector('.cart-count');
+
+// Fonction d'ajout au panier
+function ajouterAuPanierProduit(titre, prix, image, qualite = "Standard", quantite = 1, taille = "Standard") {
+    cartCount += quantite;
+    cartCountElement.textContent = cartCount;
+    let panier = JSON.parse(localStorage.getItem('panier')) || [];
+    const index = panier.findIndex(item =>
+        item.titre === titre && item.image === image &&
+        item.qualite === qualite && item.taille === taille
+    );
+    if (index !== -1) {
+        panier[index].quantite += quantite;
+    } else {
+        panier.push({
+            titre, nom: titre, prix: parseFloat(prix.replace(/[^\d.]/g, '')),
+            image, qualite, taille, quantite
+        });
+    }
+    localStorage.setItem('panier', JSON.stringify(panier));
+    cartIcon.classList.add('cart-added');
+    setTimeout(() => cartIcon.classList.remove('cart-added'), 400);
+    cartCountElement.style.transform = 'scale(1.4)';
+    cartCountElement.style.transition = 'transform 0.3s ease';
+    setTimeout(() => cartCountElement.style.transform = 'scale(1)', 300);
+}
+
+// Charger panier au démarrage
+document.addEventListener('DOMContentLoaded', () => {
+    const panier = JSON.parse(localStorage.getItem('panier')) || [];
+    cartCount = panier.reduce((sum, item) => sum + item.quantite, 0);
+    cartCountElement.textContent = cartCount;
+});
+
+// Boutons "Ajouter au panier" sur cartes produits
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const card = btn.closest('.product-card');
+        const titre = card.querySelector('.product-title').textContent;
+        const prix = card.querySelector('.product-price').textContent;
+        const image = card.querySelector('.product-image img').src;
+        ajouterAuPanierProduit(titre, prix, image);
+    });
+});
+
+// Quick View Modal
+window.onload = function () {
+    const modal = document.querySelector(".product-modal");
+    const closeModal = document.querySelector(".close-modal");
+    const quickViews = document.querySelectorAll(".quick-view");
+    const modalImage = document.getElementById("modal-product-image");
+    const modalTitle = document.getElementById("modal-product-title");
+    const modalPrice = document.getElementById("modal-product-price");
+    const thumbnailContainer = document.querySelector(".thumbnails");
+
+    // Voir un produit
+quickViews.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const card = btn.closest(".product-card");
+        const image = card.querySelector("img").src;
+        const title = card.querySelector(".product-title").textContent;
+        const price = card.querySelector(".product-price").textContent;
+        const type = card.getAttribute("data-category");
+
+        modalImage.src = image;
+        modalTitle.textContent = title;
+        modalPrice.textContent = price;
+
+        // Réinitialisation des tailles
+        document.querySelector('.size-tshirt').style.display = "none";
+        document.querySelector('.size-shoes').style.display = "none";
+        document.querySelector('.size-watch').style.display = "none";
+        document.querySelector('.size-phone').style.display = "none";
+
+        if (type === "tshirts") document.querySelector('.size-tshirt').style.display = "block";
+        if (type === "shoes") document.querySelector('.size-shoes').style.display = "block";
+        if (type === "montres") document.querySelector('.size-watch').style.display = "block";
+        if (type === "phones") {
+            document.querySelector('.size-phone').style.display = "block";
+
+            // 💡 Mise à jour dynamique des prix par stockage
+            const price64 = card.getAttribute("data-price-64");
+            const price128 = card.getAttribute("data-price-128");
+            const price256 = card.getAttribute("data-price-256");
+
+            const storageOptions = document.querySelectorAll('.storage-options .size-option');
+            if (storageOptions[0]) storageOptions[0].setAttribute("data-price", price64 || "0");
+            if (storageOptions[1]) storageOptions[1].setAttribute("data-price", price128 || "0");
+            if (storageOptions[2]) storageOptions[2].setAttribute("data-price", price256 || "0");
+
+            // Mettre à jour le prix affiché selon la sélection
+            const selectedStorage = document.querySelector('.storage-options .size-option.selected');
+            if (selectedStorage) {
+                const newPrice = selectedStorage.getAttribute("data-price");
+                modalPrice.textContent = `${parseInt(newPrice).toLocaleString()} FCFA`;
+            }
+        }
+
+        // Mini galerie dynamique
+        const thumbs = [
+            image,
+            image.replace('.jpg', '2.jpg'),
+            image.replace('.jpg', '3.jpg'),
+            image.replace('.jpg', '4.jpg')
+        ];
+        thumbnailContainer.innerHTML = '';
+        thumbs.forEach((src, i) => {
+            const thumb = document.createElement('img');
+            thumb.src = src;
+            if (i === 0) thumb.classList.add('active');
+            thumb.addEventListener('click', () => {
+                modalImage.src = src;
+                document.querySelectorAll('.thumbnails img').forEach(img => img.classList.remove('active'));
+                thumb.classList.add('active');
+            });
+            thumbnailContainer.appendChild(thumb);
+        });
+
+        // Afficher le modal
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+    });
+});
+
+
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    });
+};
+
+// Gestion de la sélection
+document.querySelectorAll('.size-option').forEach(option => {
+    option.addEventListener('click', () => {
+        option.parentElement.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+    });
+});
+
+// Sélection quantité
+document.querySelectorAll('.quantity-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const input = btn.parentElement.querySelector('.quantity-input');
+        let value = parseInt(input.value);
+        input.value = (btn.textContent === '+') ? value + 1 : Math.max(1, value - 1);
+    });
+});
+
+// Prix dynamique pour téléphones
+document.querySelectorAll('.storage-options .size-option').forEach(option => {
+    option.addEventListener('click', function () {
+        const price = this.getAttribute('data-price');
+        document.getElementById('modal-product-price').textContent = `${parseInt(price).toLocaleString()} FCFA`;
+    });
+});
+
+// Ajouter au panier depuis le modal
+document.querySelector('.modal-add-to-cart').addEventListener('click', () => {
+    const titre = document.getElementById('modal-product-title').textContent;
+    const prixElement = document.querySelector('.storage-options .size-option.selected');
+    const prix = prixElement ? prixElement.getAttribute('data-price') : document.getElementById('modal-product-price').textContent;
+    const image = document.getElementById('modal-product-image').src;
+    const quantite = parseInt(document.querySelector('.quantity-input').value) || 1;
+    const tailleEl = document.querySelector('.size-selector[style*="block"] .size-option.selected');
+    const taille = tailleEl ? tailleEl.textContent : "Standard";
+    const couleurEl = document.querySelector('.color-options .size-option.selected');
+    const qualite = couleurEl ? couleurEl.textContent : "Standard";
+
+    ajouterAuPanierProduit(titre, prix, image, qualite, quantite, taille);
+
+    const modal = document.querySelector(".product-modal");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+});
+</script>
+
+	
+	</body>
 </html>
