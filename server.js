@@ -57,7 +57,7 @@ app.post("/api/commandes", (req, res) => {
         res.status(500).json({ message: "Erreur lors de l'enregistrement." });
       } else {
         console.log("✅ Commande enregistrée !");
-        res.status(200).json({ message: "Commande enregistrée avec succès." });
+        res.status(200).json({ success: true, message: "Commande enregistrée avec succès." });
       }
     }
   );
