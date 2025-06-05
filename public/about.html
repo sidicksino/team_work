@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINO BOUR - Boutique en ligne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset et Base */
+        :root {
+            --primary: #ff4d4d;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --gray: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0rem 5%;
+            background: var(--primary);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo img {
+            height: 60px;
+            width: 70px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        /* Par défaut en mobile : le menu est caché */
+        .nav-menu {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 1rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Quand le menu est actif (cliqué), on l’affiche */
+        .nav-menu.active {
+            display: flex;
+        }
+
+        /* Le bouton hamburger actif (animation X) */
+        .mobile-menu-toggle.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: white;
+        }
+
+        .buttonHeader {
+            padding: 10px 20px;
+            background-color: #000000;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--primary);
+            min-width: 500px;
+            padding: 1rem;
+            border-radius: 5px;
+            z-index: 1;
+            margin-top: 5px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.5rem 10px;
+        }
+
+        .cart-icon {
+            position: relative;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .cart-icon a {
+            color: white;
+
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Menu mobile */
+        .mobile-menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .dropdown-content {
+                position: static;
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 65px;
+            overflow: hidden;
+        }
+
+        #hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* La vidéo couvre l'intégralité de la section */
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 30rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Media query pour petits écrans */
+        @media (max-width: 768px) {
+            #hero-video {
+                object-fit: contain;
+                /* Pour éviter de découper la vidéo sur petit écran */
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+                /* Ajuste la taille du texte sur les petits écrans */
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+                /* Réduit la taille du texte */
+            }
+
+            .hero {
+                margin-top: -110px;
+            }
+
+            .cta-button {
+                margin-top: 20rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .newsletter-btn {
+            padding: 0 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .modal-content {
+                flex-direction: column;
+                max-width: 500px;
+            }
+
+            .modal-image {
+                min-height: 300px;
+            }
+
+            .products-section {
+                margin-top: -5rem;
+            }
+
+            .product-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
+                gap: 1rem;
+            }
+
+            .product-image {
+                height: 200px;
+            }
+
+            .product-info {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 80vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .filters {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.3rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Styles existants conservés */
+        :root {
+            --primary: #ff4d4d;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --darker: #111;
+            --gray: #ddd;
+        }
+
+        /* FOOTER SUPER STRUCTURE */
+        .super-footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: white;
+            border-top: 3px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 5% 2rem;
+        }
+
+        /* GRID PRINCIPALE */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* BLOC À PROPOS */
+        .footer-about {
+            position: relative;
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo img {
+            height: 70px;
+            filter: brightness(0) invert(1);
+        }
+
+        .brand-slogan {
+            font-style: italic;
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .trust-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.8rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1 1 160px;
+        }
+
+        .trust-badge i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .trust-badge span {
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        /* BLOCS DE LIENS */
+        .footer-block h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-block h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-links i {
+            color: var(--primary);
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* NEWSLETTER */
+        .newsletter-box {
+            margin-top: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.9rem 1rem;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 5px 0 0 5px;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: #ccc;
+        }
+
+        .newsletter-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 0 5px 5px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .newsletter-btn:hover {
+            background: #e63939;
+        }
+
+        .privacy-text {
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* RÉSEAUX SOCIAUX */
+        .social-media {
+            margin-top: 2rem;
+        }
+
+        .social-title {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .instagram {
+            background: #E1306C;
+        }
+
+        .tiktok {
+            background: #000;
+        }
+
+        .youtube {
+            background: #FF0000;
+        }
+
+        .pinterest {
+            background: #E60023;
+        }
+
+        /* SECTION INFERIEURE */
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-methods img {
+            height: 35px;
+            filter: none;
+            transition: all 0.3s;
+        }
+
+        .payment-methods img:hover {
+            filter: grayscale(10%) brightness(3);
+            transform: translateY(-10px);
+        }
+
+        .legal-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legal-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color 0.3s;
+        }
+
+        .legal-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: #777;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .copyright strong {
+            color: #ddd;
+        }
+
+        /* BOUTON RETOUR EN HAUT */
+        .back-to-top {
+            position: fixed;
+            top: 90%;
+            right: 30px;
+        }
+
+        .back-to-top a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .back-to-top a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+
+        .q {
+            display: flex;
+            justify-content: space-between;
+            padding: 0px 0px;
+        }
+
+        /* VERSION MOBILE AVANCÉE */
+        @media (max-width: 768px) {
+            .footer-container {
+                padding: 3rem 5% 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* SECTION FLEX POUR NAVIGATION/SERVICE CLIENT */
+            .mobile-flex-section {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .footer-block {
+
+                min-width: 160px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .footer-block h3 {
+                cursor: pointer;
+                margin-bottom: 20px;
+                padding-bottom: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 0.8rem;
+            }
+
+            .q {
+                gap: 1rem;
+            }
+
+            .footer-block h3 .mobile-toggle-icon {
+                transition: transform 0.3s;
+            }
+
+            .footer-block.active h3 .mobile-toggle-icon {
+                transform: rotate(180deg);
+            }
+
+            .footer-links {
+                max-height: 100%;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                padding-top: 0;
+                margin-top: 0;
+            }
+
+            .footer-block.active .footer-links {
+                max-height: 500px;
+                padding-top: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            .footer-links li {
+                margin-bottom: 0.8rem;
+            }
+
+            .footer-links a {
+                font-size: 0.85rem;
+            }
+
+            .back-to-top {
+                right: 20px;
+                top: -15px;
+            }
+
+            .back-to-top a {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .footer-block h3 i {
+                display: none;
+            }
+
+            .w {
+                display: flex;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-flex-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer-block {
+                flex: 1 1 100%;
+            }
+
+            .trust-badge {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/images/logo3.png" alt="sino bour">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li class="dropdown">
+                <a href="#">Boutique <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="tshirts.html">Montres</a>
+                    <a href="chaussures.html">T-Shirts</a>
+                    <a href="montres.html">Chaussures</a>
+                </div>
+            </li>
+            <li><a href="about.html">À Propos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" class="buttonHeader">Log in</a></li>
+        </ul>
+
+        <div class="cart-icon">
+            <a href="panier.html">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <span class="cart-count">0</span>
+        </div>
+        <div class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop id="hero-video">
+            <source src="assets/images/sidick.mp4" type="video/mp4">
+            Ton navigateur ne prend pas en charge la vidéo.
+        </video>
+        <div class="hero-content">
+            <a href="admin.html" class="cta-button">Découvrir la collection</a>
+        </div>
+    </section>
+    <section>
+
+        <section style="background: #f6f6f6; padding: 60px 0;">
+            <div style="max-width:1200px; margin:0 auto; padding:0 20px;">
+                <!-- Top Row -->
+                <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+                    <!-- Updated Intro -->
+                    <div style="flex:2; min-width:220px;">
+                        <p style="font-size:1.1em; line-height:1.7; margin-bottom:0;">
+                            Welcome to our e-commerce platform, your trusted destination for discovering quality
+                            products, seamless shopping, and exceptional value—empowering you to shop smarter, faster,
+                            and safer online.
+                        </p>
+                    </div>
+                    <!-- Mission -->
+                    <div style="flex:1; min-width:200px; text-align:center; border-right:1px solid #ddd;">
+                        <i class="fa-solid fa-network-wired"
+                            style="font-size:2.5em; margin-bottom:10px; color:#222;"></i>
+                        <div style="font-weight:bold; font-size:1.3em; margin:10px 0 5px;">MISSION</div>
+                        <div style="font-size:1em; color:#333;">To deliver authentic products that reflect our values
+                            and heritage.</div>
+                    </div>
+                    <!-- Vision -->
+                    <div style="flex:1; min-width:200px; text-align:center;">
+                        <i class="fa-regular fa-eye" style="font-size:2.5em; margin-bottom:10px; color:#222;"></i>
+                        <div style="font-weight:bold; font-size:1.3em; margin:10px 0 5px;">Vision</div>
+                        <div style="font-size:1em; color:#333;">To become a trusted brand loved across the region and
+                            beyond</div>
+                    </div>
+                </div>
+
+                <!-- Why Choose Us -->
+                <div style="margin-top:60px;">
+                    <div style="font-size:2em; font-weight:bold; margin-bottom:30px;">Why Choose Us</div>
+                    <div style="display:flex; gap:24px; flex-wrap:wrap;">
+                        <!-- Card 1 -->
+                        <div
+                            style="flex:1; min-width:200px; background:#ededed; border-radius:16px; padding:32px 12px; text-align:center;">
+                            <i class="fa-solid fa-car-side"
+                                style="font-size:2.5em; margin-bottom:18px; color:#222;"></i>
+                            <div style="font-size:1.15em; font-weight:400;">Fast<br>Delivery</div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div
+                            style="flex:1; min-width:200px; background:#ededed; border-radius:16px; padding:32px 12px; text-align:center;">
+                            <i class="fa-regular fa-circle-check"
+                                style="font-size:2.5em; margin-bottom:18px; color:#222;"></i>
+                            <div style="font-size:1.15em; font-weight:400;">Quality<br>Guaranteed</div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div
+                            style="flex:1; min-width:200px; background:#ededed; border-radius:16px; padding:32px 12px; text-align:center;">
+                            <i class="fa-solid fa-tag" style="font-size:2.5em; margin-bottom:18px; color:#222;"></i>
+                            <div style="font-size:1.15em; font-weight:400;">Affordable<br>Prices</div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div
+                            style="flex:1; min-width:200px; background:#ededed; border-radius:16px; padding:32px 12px; text-align:center;">
+                            <i class="fa-solid fa-wrench" style="font-size:2.5em; margin-bottom:18px; color:#222;"></i>
+                            <div style="font-size:1.15em; font-weight:400;">Responsible<br>Support</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section Heading and Intro -->
+                <div style="text-align: center; margin-top: 60px; margin-bottom: 40px;">
+                    <h2 style="font-size: 2.2em; font-weight: bold; margin-bottom: 12px;">Meet Our Team</h2>
+                    <p style="font-size: 1.15em; color: #444; max-width: 600px; margin: 0 auto;">
+                        Behind every great e-commerce experience is a passionate team. Meet the innovators who drive our
+                        platform forward with expertise, dedication, and a shared vision for digital excellence.
+                    </p>
+                </div>
+
+                <!-- New Images Section (Teammates) -->
+                <div style="display: flex; gap: 32px; justify-content: center; margin: 60px 0;">
+                    <!-- Leader -->
+                    <div style="text-align: center; max-width: 260px;">
+                        <img src="assets/images/S.jpg" alt="Sidick Abdoulaye Hissein"
+                            style="width: 230px; height: 280px; object-fit: cover; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); background: #fff;">
+                        <div style="margin-top: 16px; font-weight: bold; font-size: 1.1em;">Sidick Abdoulaye Hissein
+                        </div>
+                        <div style="color: #555; font-size: 1em; font-weight:500;">Leader</div>
+                        <div style="margin-top: 12px; color: #444; font-size: 0.95em;">
+                            Visionary entrepreneur with a passion for digital transformation.<br>
+                            Sidick leads the team in building a secure, user-friendly e-commerce platform that empowers
+                            local businesses and connects buyers to quality products.
+                        </div>
+                    </div>
+                    <!-- Secretary-General -->
+                    <div style="text-align: center; max-width: 260px;">
+                        <img src="assets/images/N.jpg" alt="Nariman Ousman"
+                            style="width: 230px; height: 280px; object-fit: cover; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); background: #fff;">
+                        <div style="margin-top: 16px; font-weight: bold; font-size: 1.1em;">Nariman Ousman</div>
+                        <div style="color: #555; font-size: 1em; font-weight:500;">Secretary-General</div>
+                        <div style="margin-top: 12px; color: #444; font-size: 0.95em;">
+                            Expert in operations and customer relations.<br>
+                            Nariman ensures smooth transactions, efficient support, and a seamless shopping experience
+                            for all users of our e-commerce marketplace.
+                        </div>
+                    </div>
+                    <!-- Secretary -->
+                    <div style="text-align: center; max-width: 260px;">
+                        <img src="assets/images/H.jpg" alt="Hamid Ahmat Brahim"
+                            style="width: 230px; height: 280px; object-fit: cover; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); background: #fff;">
+                        <div style="margin-top: 16px; font-weight: bold; font-size: 1.1em;">Hamid Ahmat Brahim</div>
+                        <div style="color: #555; font-size: 1em; font-weight:500;">Secretary</div>
+                        <div style="margin-top: 12px; color: #444; font-size: 0.95em;">
+                            Dedicated to data accuracy and communication.<br>
+                            Hamid manages records, coordinates between teams, and helps maintain the trust and
+                            transparency essential in e-commerce.
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+    </section>
+
+    </section>
+    <!-- Footer -->
+    <footer class="super-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <!-- BLOC À PROPOS -->
+                <div class="footer-about">
+                    <div class="w">
+                        <div class="footer-logo">
+                            <img src="assets/images/logo3.png" alt="CHAD TEXTILE">
+                        </div>
+                        <p class="brand-slogan">L'excellence textile africaine. Des créations uniques pour un style
+                            affirmé.</p>
+                    </div>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Paiement sécurisé</span>
+                        </div>
+                        <div class="trust-badge">
+                            <i class="fas fa-truck"></i>
+                            <span>Livraison rapide</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="q">
+                    <!-- BLOC NAVIGATION -->
+                    <div class="footer-block">
+                        <h3>
+                            Navigation
+                            <i class="fas fa-chevron-down mobile-toggle-icon"></i>
+                        </h3>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Nouveautés</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Best-sellers</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Collections</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Lookbook</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Promotions</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- BLOC SERVICE CLIENT -->
+                    <div class="footer-block">
+                        <h3>
+                            Service Client
+                            <i class="fas fa-chevron-down mobile-toggle-icon"></i>
+                        </h3>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="far fa-question-circle"></i> Centre d'aide</a></li>
+                            <li><a href="#"><i class="fas fa-exchange-alt"></i> Retours gratuits</a></li>
+                            <li><a href="#"><i class="fas fa-phone-alt"></i> Nous contacter</a></li>
+                            <li><a href="#"><i class="fas fa-shipping-fast"></i> Suivi de commande</a></li>
+                            <li><a href="#"><i class="fas fa-ruler-combined"></i> Guide des tailles</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- BLOC NEWSLETTER -->
+                <div class="footer-block">
+                    <h3>Newsletter</h3>
+                    <p>Soyez les premiers informés de nos nouveautés et offres exclusives.</p>
+
+                    <div class="newsletter-box">
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Votre email" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                        <p class="privacy-text">
+                            <i class="fas fa-lock"></i> Vos données sont protégées
+                        </p>
+                    </div>
+
+                    <div class="social-media">
+                        <h4 class="social-title">Suivez-nous</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-icon pinterest"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION INFERIEURE -->
+            <div class="footer-bottom">
+                <div class="payment-methods">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="Mastercard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" alt="PayPal">
+                    <img src="https://cdn-icons-png.flaticon.com/512/888/888870.png" alt="Apple Pay">
+                </div>
+
+                <div class="legal-links">
+                    <a href="#">CGV</a>
+                    <span>•</span>
+                    <a href="#">Mentions légales</a>
+                    <span>•</span>
+                    <a href="#">Confidentialité</a>
+                    <span>•</span>
+                    <a href="#">Cookies</a>
+                </div>
+
+                <div class="copyright">
+                    <p>© 2024 <strong>SINO BOUR</strong> - Tous droits réservés | Made with <i class="fas fa-heart"
+                            style="color: var(--primary);"></i> in Chad</p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script>
+        // Menu mobile
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Filtres produits
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                productCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    card.style.display = (filter === 'all' || category === filter) ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Scroll top
+        document.querySelector('.back-to-top a').addEventListener('click', e => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Accordéons footer mobile
+        document.querySelectorAll('.footer-block h3').forEach(header => {
+            header.addEventListener('click', function () {
+                if (window.innerWidth <= 768) {
+                    this.parentElement.classList.toggle('active');
+                }
+            });
+        });
+
+        // Footer animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const footer = document.querySelector('.super-footer');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            observer.observe(footer);
+        });
+
+        // Variables globales panier
+        let cartCount = 0;
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartCountElement = document.querySelector('.cart-count');
+
+        // Fonction d'ajout au panier
+        function ajouterAuPanierProduit(titre, prix, image, qualite = "Standard", quantite = 1, taille = "Standard") {
+            cartCount += quantite;
+            cartCountElement.textContent = cartCount;
+            let panier = JSON.parse(localStorage.getItem('panier')) || [];
+            const index = panier.findIndex(item =>
+                item.titre === titre && item.image === image &&
+                item.qualite === qualite && item.taille === taille
+            );
+            if (index !== -1) {
+                panier[index].quantite += quantite;
+            } else {
+                panier.push({
+                    titre, nom: titre, prix: parseFloat(prix.replace(/[^\d.]/g, '')),
+                    image, qualite, taille, quantite
+                });
+            }
+            localStorage.setItem('panier', JSON.stringify(panier));
+            cartIcon.classList.add('cart-added');
+            setTimeout(() => cartIcon.classList.remove('cart-added'), 400);
+            cartCountElement.style.transform = 'scale(1.4)';
+            cartCountElement.style.transition = 'transform 0.3s ease';
+            setTimeout(() => cartCountElement.style.transform = 'scale(1)', 300);
+        }
+
+        // Charger panier au démarrage
+        document.addEventListener('DOMContentLoaded', () => {
+            const panier = JSON.parse(localStorage.getItem('panier')) || [];
+            cartCount = panier.reduce((sum, item) => sum + item.quantite, 0);
+            cartCountElement.textContent = cartCount;
+        });
+
+        // Boutons "Ajouter au panier" sur cartes produits
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.product-card');
+                const titre = card.querySelector('.product-title').textContent;
+                const prix = card.querySelector('.product-price').textContent;
+                const image = card.querySelector('.product-image img').src;
+                ajouterAuPanierProduit(titre, prix, image);
+            });
+        });
+
+        // Quick View Modal
+        window.onload = function () {
+            const modal = document.querySelector(".product-modal");
+            const closeModal = document.querySelector(".close-modal");
+            const quickViews = document.querySelectorAll(".quick-view");
+            const modalImage = document.getElementById("modal-product-image");
+            const modalTitle = document.getElementById("modal-product-title");
+            const modalPrice = document.getElementById("modal-product-price");
+            const thumbnailContainer = document.querySelector(".thumbnails");
+
+            // Voir un produit
+            quickViews.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const card = btn.closest(".product-card");
+                    const image = card.querySelector("img").src;
+                    const title = card.querySelector(".product-title").textContent;
+                    const price = card.querySelector(".product-price").textContent;
+                    const type = card.getAttribute("data-category");
+
+                    modalImage.src = image;
+                    modalTitle.textContent = title;
+                    modalPrice.textContent = price;
+
+                    // Réinitialisation des tailles
+                    document.querySelector('.size-tshirt').style.display = "none";
+                    document.querySelector('.size-shoes').style.display = "none";
+                    document.querySelector('.size-watch').style.display = "none";
+                    document.querySelector('.size-phone').style.display = "none";
+
+                    if (type === "tshirts") document.querySelector('.size-tshirt').style.display = "block";
+                    if (type === "shoes") document.querySelector('.size-shoes').style.display = "block";
+                    if (type === "montres") document.querySelector('.size-watch').style.display = "block";
+                    if (type === "phones") {
+                        document.querySelector('.size-phone').style.display = "block";
+
+                        // 💡 Mise à jour dynamique des prix par stockage
+                        const price64 = card.getAttribute("data-price-64");
+                        const price128 = card.getAttribute("data-price-128");
+                        const price256 = card.getAttribute("data-price-256");
+
+                        const storageOptions = document.querySelectorAll('.storage-options .size-option');
+                        if (storageOptions[0]) storageOptions[0].setAttribute("data-price", price64 || "0");
+                        if (storageOptions[1]) storageOptions[1].setAttribute("data-price", price128 || "0");
+                        if (storageOptions[2]) storageOptions[2].setAttribute("data-price", price256 || "0");
+
+                        // Mettre à jour le prix affiché selon la sélection
+                        const selectedStorage = document.querySelector('.storage-options .size-option.selected');
+                        if (selectedStorage) {
+                            const newPrice = selectedStorage.getAttribute("data-price");
+                            modalPrice.textContent = `${parseInt(newPrice).toLocaleString()} FCFA`;
+                        }
+                    }
+
+                    // Mini galerie dynamique
+                    const thumbs = [
+                        image,
+                        image.replace('.jpg', '2.jpg'),
+                        image.replace('.jpg', '3.jpg'),
+                        image.replace('.jpg', '4.jpg')
+                    ];
+                    thumbnailContainer.innerHTML = '';
+                    thumbs.forEach((src, i) => {
+                        const thumb = document.createElement('img');
+                        thumb.src = src;
+                        if (i === 0) thumb.classList.add('active');
+                        thumb.addEventListener('click', () => {
+                            modalImage.src = src;
+                            document.querySelectorAll('.thumbnails img').forEach(img => img.classList.remove('active'));
+                            thumb.classList.add('active');
+                        });
+                        thumbnailContainer.appendChild(thumb);
+                    });
+
+                    // Afficher le modal
+                    modal.style.display = "block";
+                    document.body.style.overflow = "hidden";
+                });
+            });
+
+
+            closeModal.addEventListener("click", () => {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            });
+
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            });
+        };
+
+        // Gestion de la sélection
+        document.querySelectorAll('.size-option').forEach(option => {
+            option.addEventListener('click', () => {
+                option.parentElement.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // Sélection quantité
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = btn.parentElement.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+                input.value = (btn.textContent === '+') ? value + 1 : Math.max(1, value - 1);
+            });
+        });
+
+        // Prix dynamique pour téléphones
+        document.querySelectorAll('.storage-options .size-option').forEach(option => {
+            option.addEventListener('click', function () {
+                const price = this.getAttribute('data-price');
+                document.getElementById('modal-product-price').textContent = `${parseInt(price).toLocaleString()} FCFA`;
+            });
+        });
+
+        // Ajouter au panier depuis le modal
+        document.querySelector('.modal-add-to-cart').addEventListener('click', () => {
+            const titre = document.getElementById('modal-product-title').textContent;
+            const prixElement = document.querySelector('.storage-options .size-option.selected');
+            const prix = prixElement ? prixElement.getAttribute('data-price') : document.getElementById('modal-product-price').textContent;
+            const image = document.getElementById('modal-product-image').src;
+            const quantite = parseInt(document.querySelector('.quantity-input').value) || 1;
+            const tailleEl = document.querySelector('.size-selector[style*="block"] .size-option.selected');
+            const taille = tailleEl ? tailleEl.textContent : "Standard";
+            const couleurEl = document.querySelector('.color-options .size-option.selected');
+            const qualite = couleurEl ? couleurEl.textContent : "Standard";
+
+            ajouterAuPanierProduit(titre, prix, image, qualite, quantite, taille);
+
+            const modal = document.querySelector(".product-modal");
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        });
+    </script>
+</body>
+
+</html>
