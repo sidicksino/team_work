@@ -264,116 +264,119 @@
     </section>
   </main>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-   const cart = JSON.parse(localStorage.getItem('panier')) || [];
-   const cartItemsDiv = document.getElementById('cartItems');
-   const totalPriceSpan = document.getElementById('totalPrice');
-   let total = 0;
-
-   const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('fr-FR', {
-         style: 'currency',
-         currency: 'XAF',
-         currencyDisplay: 'narrowSymbol'
-      }).format(amount).replace('FCFA', 'FCFA');
-   };
-
-   if (cart.length === 0) {
-      cartItemsDiv.innerHTML = `<div class="empty-cart">
-         <i class="fas fa-shopping-cart"></i>
-         <p>Votre panier est vide</p>
-      </div>`;
-   } else {
-      cart.forEach(item => {
-         const prix = parseInt(item.prix) || 0;
-         const quantite = parseInt(item.quantite) || 1;
-         const sousTotal = prix * quantite;
-         total += sousTotal;
-
-         const itemDiv = document.createElement('div');
-         itemDiv.innerHTML = `
-            <span>${item.nom} x ${quantite}</span>
-            <span class="price">${formatCurrency(sousTotal)}</span>
-         `;
-         cartItemsDiv.appendChild(itemDiv);
-      });
-
-      totalPriceSpan.textContent = formatCurrency(total);
-   }
-
-   document.getElementById('orderForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
       
-      const formData = new FormData(e.target);
-      const submitBtn = e.target.querySelector('button[type="submit"]');
-
-      // Données pour l'enregistrement
-      const data = {
-         prenom: formData.get('prenom'),
-         nom: formData.get('nom'),
-         email: formData.get('email'),
-         telephone: formData.get('telephone'),
-         adresse: formData.get('adresse'),
-         ville: formData.get('ville'),
-         paiement: formData.get('paiement'),
-         produits: cart,
-         total: total
-      };
-
-      // Données pour EmailJS
-      const templateParams = {
-         title: "Commande",
-         name: data.prenom + " " + data.nom,
-         email: data.email,
-         telephone: data.telephone,
-         adresse: data.adresse,
-         ville: data.ville,
-         paiement: data.paiement,
-         items: cart.map(item => `${item.nom} (${item.taille || 'Standard'}, ${item.qualite || 'Standard'}) x ${item.quantite}`).join(", "),
-         total: formatCurrency(total)
-      };
-
-      try {
-         submitBtn.disabled = true;
-         submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Traitement...`;
-
-         // 1️⃣ Enregistrement dans la base de données
-         const response = await fetch('enregistrer_commande.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-         });
-
-         const result = await response.json();
-
-         if (!result.success) {
-            alert("Erreur côté serveur : " + result.message);
-            return;
-         }
-
-         // 2️⃣ Envoi via EmailJS
-         await emailjs.send('service_badys3u', 'template_p7ksx11', templateParams, 'DGu360jLgTiYGNW6H');
-
-         // 3️⃣ Sauvegarde locale pour admin
-         let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
-         commandes.push(templateParams);
-         localStorage.setItem('commandes', JSON.stringify(commandes));
-
-         // 4️⃣ Nettoyage et redirection
-         localStorage.removeItem('panier');
-         window.location.href = 'confirmation.html';
-
-      } catch (error) {
-         console.error(error);
-         alert("Une erreur est survenue pendant le traitement.");
-      } finally {
-         submitBtn.disabled = false;
-         submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmer la commande`;
-      }
-   });
-});
-</script>
+       const cart = JSON.parse(localStorage.getItem('panier')) || [];
+       const cartItemsDiv = document.getElementById('cartItems');
+       const totalPriceSpan = document.getElementById('totalPrice');
+       let total = 0;
+    
+       const formatCurrency = (amount) => {
+          return new Intl.NumberFormat('fr-FR', {
+             style: 'currency',
+             currency: 'XAF',
+             currencyDisplay: 'narrowSymbol'
+          }).format(amount).replace('FCFA', 'FCFA');
+       };
+    
+       if (cart.length === 0) {
+          cartItemsDiv.innerHTML = `<div class="empty-cart">
+             <i class="fas fa-shopping-cart"></i>
+             <p>Votre panier est vide</p>
+          </div>`;
+       } else {
+          cart.forEach(item => {
+             const prix = parseInt(item.prix) || 0;
+             const quantite = parseInt(item.quantite) || 1;
+             const sousTotal = prix * quantite;
+             total += sousTotal;
+    
+             const itemDiv = document.createElement('div');
+             itemDiv.innerHTML = `
+                <span>${item.nom} x ${quantite}</span>
+                <span class="price">${formatCurrency(sousTotal)}</span>
+             `;
+             cartItemsDiv.appendChild(itemDiv);
+          });
+    
+          totalPriceSpan.textContent = formatCurrency(total);
+       }
+    
+       document.getElementById('orderForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(e.target);
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+    
+          // Données pour l'enregistrement
+          const data = {
+             prenom: formData.get('prenom'),
+             nom: formData.get('nom'),
+             email: formData.get('email'),
+             telephone: formData.get('telephone'),
+             adresse: formData.get('adresse'),
+             ville: formData.get('ville'),
+             paiement: formData.get('paiement'),
+             produits: cart,
+             total: total
+          };
+    
+          // Données pour EmailJS
+          const templateParams = {
+             title: "Commande",
+             name: data.prenom + " " + data.nom,
+             email: data.email,
+             telephone: data.telephone,
+             adresse: data.adresse,
+             ville: data.ville,
+             paiement: data.paiement,
+             items: cart.map(item => `${item.nom} (${item.taille || 'Standard'}, ${item.qualite || 'Standard'}) x ${item.quantite}`).join(", "),
+             total: formatCurrency(total)
+          };
+    
+          try {
+             submitBtn.disabled = true;
+             submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Traitement...`;
+    
+             // 1️⃣ Enregistrement dans la base de données
+             const response = await fetch('/api/commandes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+             });
+    
+             const result = await response.json();
+    
+             if (!result.success) {
+                alert("Erreur côté serveur : " + result.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmer la commande`;
+                return;
+             }
+    
+             // 2️⃣ Envoi via EmailJS
+             await emailjs.send('service_badys3u', 'template_p7ksx11', templateParams, 'DGu360jLgTiYGNW6H');
+    
+             // 3️⃣ Sauvegarde locale pour admin
+             let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+             commandes.push(templateParams);
+             localStorage.setItem('commandes', JSON.stringify(commandes));
+    
+             // 4️⃣ Nettoyage et redirection
+             localStorage.removeItem('panier');
+             window.location.href = 'confirmation.html';
+    
+          } catch (error) {
+             console.error(error);
+             alert("Une erreur est survenue pendant le traitement.");
+             submitBtn.disabled = false;
+             submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmer la commande`;
+          }
+       });
+    });
+    </script>
+    
 
 
 </body>

@@ -134,6 +134,18 @@ app.post("/login", async (req, res) => {
   });
 });
 
+// Route GET /api/commandes — Récupérer toutes les commandes
+app.get("/api/commandes", (req, res) => {
+  const sql = "SELECT * FROM commandes ORDER BY id DESC";
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Erreur SQL lors de la récupération des commandes:", err.message);
+      return res.status(500).json({ message: "Erreur serveur." });
+    }
+    res.status(200).json(results);
+  });
+});
+
 // Lancement serveur
 app.listen(PORT, () => {
   console.log(`🚀 Serveur lancé : http://localhost:${PORT}`);
