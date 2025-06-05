@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration SINO BOUR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+      --light: #ecf0f1;
+      --dark: #34495e;
+      --border: #bdc3c7;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+    }
+    
+    .admin-container {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header {
+      background: var(--primary);
+      color: white;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+      color: #f1c40f;
+    }
+    
+    .logo h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+    
+    .tagline {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .admin-content {
+      display: flex;
+      min-height: 500px;
+    }
+    
+    /* Login Section */
+    .login-section {
+      flex: 1;
+      padding: 40px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .welcome-message {
+      margin-bottom: 30px;
+    }
+    
+    .welcome-message h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .welcome-message p {
+      color: #7f8c8d;
+      line-height: 1.8;
+    }
+    
+    .login-form {
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+    
+    .input-with-icon {
+      position: relative;
+    }
+    
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #95a5a6;
+      font-size: 18px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 15px 15px 15px 50px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+    
+    .login-btn:hover {
+      background: #2980b9;
+    }
+    
+    .login-btn:active {
+      transform: translateY(2px);
+    }
+    
+    .login-btn i {
+      margin-right: 10px;
+    }
+    
+    /* Dashboard Preview */
+    .dashboard-preview {
+      flex: 1;
+      background: linear-gradient(120deg, #3498db, #2c3e50);
+      padding: 40px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .dashboard-preview::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1000');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+    }
+    
+    .preview-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .preview-content h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .preview-content ul {
+      list-style: none;
+      margin-top: 30px;
+    }
+    
+    .preview-content li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .preview-content li i {
+      background: rgba(255, 255, 255, 0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      transform: translateX(150%);
+      transition: transform 0.4s ease-in-out;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification.success {
+      background-color: var(--success);
+    }
+    
+    .notification.error {
+      background-color: var(--danger);
+    }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+      .admin-content {
+        flex-direction: column;
+      }
+      
+      .dashboard-preview {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header {
+        padding: 20px 15px;
+      }
+      
+      .logo h1 {
+        font-size: 1.8rem;
+      }
+      
+      .login-section {
+        padding: 30px 20px;
+      }
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .login-section {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    .dashboard-preview {
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    .form-group {
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .login-btn { animation: fadeIn 0.5s ease-out 0.3s; }
+  </style>
+</head>
+<body>
+  <div class="notification" id="notification"></div>
+  
+  <div class="admin-container">
+    <div class="header">
+      <div class="logo">
+        <i class="fas fa-lock"></i>
+        <h1>SINO BOUR</h1>
+      </div>
+      <p class="tagline">Interface d'administration</p>
+    </div>
+    
+    <div class="admin-content">
+      <div class="login-section">
+        <div class="welcome-message">
+          <h2>Connexion administrateur</h2>
+          <p>Accédez à votre tableau de bord pour gérer les commandes, les produits et les clients de votre boutique.</p>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" autocomplete="off">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <div class="input-with-icon">
+              <i class="fas fa-key"></i>
+              <input type="password" id="password" placeholder="Entrez votre mot de passe">
+            </div>
+          </div>
+          
+          <button type="submit" class="login-btn" id="loginBtn">
+            <i class="fas fa-sign-in-alt"></i> Se connecter
+          </button>
+        </form>
+      </div>
+      
+      <div class="dashboard-preview">
+        <div class="preview-content">
+          <h2>Tableau de bord administrateur</h2>
+          <p>Accédez à toutes les fonctionnalités d'administration de votre boutique en ligne SINO BOUR.</p>
+          
+          <ul>
+            <li>
+              <i class="fas fa-shopping-cart"></i>
+              <span>Gestion des commandes clients</span>
+            </li>
+            <li>
+              <i class="fas fa-box"></i>
+              <span>Gestion du catalogue produits</span>
+            </li>
+            <li>
+              <i class="fas fa-chart-line"></i>
+              <span>Statistiques de ventes et analyses</span>
+            </li>
+            <li>
+              <i class="fas fa-users"></i>
+              <span>Gestion des clients et comptes</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const form = document.getElementById('loginForm');
+    const notification = document.getElementById('notification');
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+  
+      if (!username || !password) {
+        showNotification("❌ Veuillez remplir tous les champs", false);
+        return;
+      }
+  
+      try {
+        const res = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+  
+        const data = await res.json();
+  
+        if (data.success) {
+          showNotification(data.message, true);
+          setTimeout(() => {
+            window.location.href = 'admin-dashboard.html';
+          }, 1000);
+        } else {
+          showNotification(data.message, false);
+        }
+      } catch (err) {
+        showNotification("❌ Erreur de connexion au serveur.", false);
+        console.error(err);
+      }
+    });
+  
+    function showNotification(message, isSuccess = true) {
+      notification.textContent = message;
+      notification.className = isSuccess ? 'notification success show' : 'notification error show';
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
