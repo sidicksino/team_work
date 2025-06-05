@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Validation de commande - SINO BOUR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init({
+        publicKey: "DGu360jLgTiYGNW6H",
+      });
+    })();
+  </script>
+
+  <style>
+    :root {
+      --primary-color: #2A2A2A;
+      --accent-color: #00C853;
+      --background-color: #F8F9FA;
+      --text-color: #2d3748;
+      --border-color: #e2e8f0;
+      --error-color: #ff4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary-color);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .checkout-container {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .checkout-form, .checkout-summary {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .checkout-form h2, .checkout-summary h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .checkout-form h2 i, .checkout-summary h2 i {
+      color: var(--accent-color);
+    }
+
+    #orderForm {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    input, select {
+      padding: 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.2);
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(135deg, var(--accent-color), #00B248);
+      color: white;
+      padding: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      width: 100%;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 200, 83, 0.2);
+    }
+
+    button[type="submit"]:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #cartItems {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--background-color);
+      border-radius: 12px;
+      animation: itemAppear 0.4s ease-out;
+    }
+
+    .cart-item .item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .cart-item .item-name {
+      font-weight: 600;
+    }
+
+    .cart-item .item-details {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .cart-item .item-price {
+      font-weight: 700;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+
+    .empty-cart i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+
+    .total {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 2px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+
+      .checkout-form, .checkout-summary {
+        padding: 1.5rem;
+      }
+
+      #orderForm {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes itemAppear {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Style de validation */
+    input:invalid:not(:placeholder-shown) {
+      border-color: var(--error-color);
+      background: #fff5f5;
+    }
+
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+
+    input:invalid:not(:placeholder-shown) + .error-message {
+      display: block;
+    }
+    
+    .loading-spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-shopping-bag"></i>SINO BOUR - Finaliser ma commande</h1>
+  </header>
+
+  <main class="checkout-container">
+    <!-- Formulaire client -->
+    <section class="checkout-form">
+      <h2><i class="fas fa-user-circle"></i>Informations Client</h2>
+      <form id="orderForm">
+        <div class="form-group">
+          <input type="text" name="prenom" placeholder="Prénom" required>
+          <span class="error-message">Ce champ est requis</span>
+        </div>
+        <div class="form-group">
+          <input type="text" name="nom" placeholder="Nom" required>
+          <span class="error-message">Ce champ est requis</span>
+        </div>
+        <div class="form-group full-width">
+          <input type="email" name="email" placeholder="Adresse email" required>
+          <span class="error-message">Email invalide</span>
+        </div>
+        <div class="form-group full-width">
+          <input type="tel" name="telephone" placeholder="Numéro de téléphone" required>
+          <span class="error-message">Numéro invalide</span>
+        </div>
+        <div class="form-group full-width">
+          <input type="text" name="adresse" placeholder="Adresse complète" required>
+          <span class="error-message">Adresse requise</span>
+        </div>
+        <div class="form-group full-width">
+          <select name="ville" required>
+            <option value="">-- Sélectionnez votre ville --</option>
+            <option value="N'Djamena">N'Djamena</option>
+            <option value="Abeché">Abeché</option>
+            <option value="Moundou">Moundou</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <select name="paiement" required>
+            <option value="">-- Mode de paiement --</option>
+            <option value="livraison">Paiement à la livraison</option>
+            <option value="mobilemoney">Mobile Money</option>
+          </select>
+        </div>
+        <button type="submit" id="submitBtn">
+          <i class="fas fa-check-circle"></i>Confirmer la commande
+        </button>
+      </form>
+    </section>
+
+    <!-- Récapitulatif Panier -->
+    <section class="checkout-summary">
+      <h2><i class="fas fa-shopping-cart"></i>Mon Panier</h2>
+      <div id="cartItems"></div>
+      <p class="total">Total : <span id="totalPrice">0 FCFA</span></p>
+    </section>
+  </main>
+
+  <script>
+    // Fonction pour formater les montants en devise
+    const formatCurrency = (amount) => {
+      return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'XAF',
+        currencyDisplay: 'narrowSymbol'
+      }).format(amount).replace('FCFA', 'FCFA');
+    };
+
+    // Afficher le contenu du panier
+    function displayCartItems() {
+      const cart = JSON.parse(localStorage.getItem('panier')) || [];
+      const cartItemsDiv = document.getElementById('cartItems');
+      const totalPriceSpan = document.getElementById('totalPrice');
+      let total = 0;
+
+      // Vider le contenu précédent
+      cartItemsDiv.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Votre panier est vide</p>
+          </div>
+        `;
+        totalPriceSpan.textContent = "0 FCFA";
+      } else {
+        cart.forEach(item => {
+          const prix = parseFloat(item.prix) || 0;
+          const quantite = parseInt(item.quantite) || 1;
+          const sousTotal = prix * quantite;
+          total += sousTotal;
+
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'cart-item';
+          itemDiv.innerHTML = `
+            <div class="item-info">
+              <div class="item-name">${item.nom}</div>
+              <div class="item-details">Quantité: ${quantite} | Taille: ${item.taille || 'Standard'}</div>
+            </div>
+            <div class="item-price">${formatCurrency(sousTotal)}</div>
+          `;
+          cartItemsDiv.appendChild(itemDiv);
+        });
+
+        totalPriceSpan.textContent = formatCurrency(total);
+      }
+    }
+
+    // Charger le panier au démarrage
+    document.addEventListener('DOMContentLoaded', displayCartItems);
+
+    // Soumission du formulaire
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const submitBtn = document.getElementById('submitBtn');
+      const originalBtnContent = submitBtn.innerHTML;
+      
+      // Afficher l'indicateur de chargement
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fas fa-spinner loading-spinner"></i> Traitement...`;
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+      // Calculer le total
+      const total = panier.reduce((acc, item) => acc + (parseFloat(item.prix) * parseInt(item.quantite)), 0);
+
+      const commande = {
+        ...data,
+        produits: panier,
+        total: total
+      };
+
+      try {
+        // Envoyer la commande au backend
+        const res = await fetch('http://localhost:3000/api/commandes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(commande)
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.message === "Commande enregistrée avec succès.") {
+          // Supprimer le panier après commande réussie
+          localStorage.removeItem('panier');
+          
+          // Redirection vers la page de confirmation
+          window.location.href = 'confirmation.html';
+        } else {
+          throw new Error(result.message || 'Erreur serveur');
+        }
+      } catch (err) {
+        console.error(err);
+        alert(`❌ Échec de la commande: ${err.message}`);
+        
+        // Réactiver le bouton
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnContent;
+      }
+    });
+  </script>
+</body>
+</html>
