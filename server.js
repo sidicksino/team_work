@@ -5,18 +5,18 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // Servir les fichiers statiques (comme admin.html, index.html)
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route GET racine
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 // Connexion MySQL
