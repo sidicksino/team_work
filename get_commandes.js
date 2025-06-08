@@ -4,13 +4,17 @@ const session = require('express-session');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5500',
+  origin: [
+    'http://localhost:5500', // développement local
+    'https://ton-site.netlify.app', // ton futur site en ligne
+  ],
   credentials: true
 }));
+
 app.use(express.json());
 app.use(session({
   secret: 'sino_bour_secret_key',
@@ -20,10 +24,11 @@ app.use(session({
 
 // Connexion MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'shoping_sino_bour'
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,         // optionnel si le port par défaut (3306)
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 // Vérifier connexion
