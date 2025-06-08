@@ -23,9 +23,10 @@ app.get("/", (req, res) => {
 // Connexion MySQL
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,  // <-- ce port est 3306 pour MySQL
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
