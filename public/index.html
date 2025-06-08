@@ -80,7 +80,7 @@
     function showNotification(message, isSuccess = true) {
       const notification = document.getElementById("notification");
       notification.textContent = message;
-      notification.className = fixed bottom-5 right-5 px-4 py-3 rounded shadow-lg text-white max-w-xs ${isSuccess ? "bg-green-500" : "bg-red-500"};
+      notification.className = `fixed bottom-5 right-5 px-4 py-3 rounded shadow-lg text-white max-w-xs ${isSuccess ? "bg-green-500" : "bg-red-500"}`;
       setTimeout(() => notification.classList.add("hidden"), 3000);
     }
   </script>
