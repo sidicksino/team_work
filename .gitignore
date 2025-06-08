@@ -1,0 +1,16 @@
+# Ignorer node_modules
+node_modules/
+
+# Ignorer les fichiers de log
+logs
+*.log
+npm-debug.log*
+
+# Ignorer le fichier d'environnement contenant des secrets
+.env
+
+# Fichiers macOS inutiles
+.DS_Store
+
+# Rapports de couverture des tests
+coverage/
