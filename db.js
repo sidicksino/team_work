@@ -10,12 +10,4 @@ const db = mysql.createPool({
   database: process.env.DB_NAME
 });
 
-db.connect(err => {
-  if (err) {
-    console.error('Erreur de connexion à la base:', err);
-  } else {
-    console.log('✅ Connecté à MySQL (FreeSQLDatabase)');
-  }
-});
-
 module.exports = db;
