@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 // Connexion MySQL
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,  // <-- ce port est 3306 pour MySQL
   user: process.env.DB_USER,
