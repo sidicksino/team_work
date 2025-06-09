@@ -31,12 +31,6 @@ const db = mysql.createPool({
   database: process.env.DB_NAME
 });
 
-// Vérifier connexion
-db.connect((err) => {
-  if (err) throw err;
-  console.log('✅ Connexion MySQL réussie');
-});
-
 // Route pour se connecter en tant qu’admin (exemple simple sans mot de passe)
 app.post('/admin/login', (req, res) => {
   // En vrai projet, utilise une table d'admins et vérifie les identifiants

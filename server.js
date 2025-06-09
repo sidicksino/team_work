@@ -29,14 +29,6 @@ const db = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("❌ Erreur MySQL:", err.message);
-  } else {
-    console.log("✅ Connecté à MySQL");
-  }
-});
-
 // Route POST pour enregistrer une commande
 app.post("/api/commandes", (req, res) => {
   const {
