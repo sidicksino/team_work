@@ -67,7 +67,7 @@
 
     <div class="under flex justify-center items-center gap-2 mt-3 font-['Inria_Serif'] text-sm sm:text-base text-black whitespace-nowrap">
       <p>Already have an account?</p>
-      <a href="index.html" class="text-[#3E41F9] hover:underline font-semibold">Login</a>
+      <a href="login.html" class="text-[#3E41F9] hover:underline font-semibold">Login</a>
     </div>
   </form>
 
@@ -105,7 +105,7 @@ try {
 
         if (data.success) {
           showNotification("✅ Registration successful! Redirecting...", true);
-          setTimeout(() => window.location.href = "index.html", 1500);
+          setTimeout(() => window.location.href = "login.html", 1500);
         } else {
           showNotification("❌ " + (data.message || "Registration failed"), false);
         }
