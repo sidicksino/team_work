@@ -1,0 +1,88 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - SINO BOUR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inria+Serif&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-[#6A11CB] to-[#2575FC]"> 
+
+  <form 
+    class="bg-[#FFFFFF] w-[90%] sm:w-[90%] md:w-[500px] lg:w-[450px] rounded-[15px] p-6 h-auto min-h-[400px] shadow-lg
+           absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    id="loginForm"
+  >
+    <h2 class="text-xl sm:text-3xl md:text-5xl font-['Inria_Serif'] text-center leading-tight pb-6 whitespace-nowrap">
+      Login
+    </h2>
+
+    <!-- Username -->
+    <input type="text" placeholder="Username" id="username" required
+      class="w-full h-[40px] rounded-[5px] border border-[#4C5BDD] px-3 font-['Inria_Serif'] text-[16px] leading-[150%]" />
+
+    <br><br>
+
+    <!-- Password -->
+    <input type="password" placeholder="Password" id="password" required
+      class="w-full h-[40px] rounded-[5px] border border-[#4C5BDD] px-3 font-['Inria_Serif'] text-[16px] leading-[150%]" />
+
+    <br><br>
+
+    <button type="submit" class="w-full bg-[#FF4D4D] text-white font-['Inria_Serif'] text-lg sm:text-xl md:text-xl rounded-md py-2 mt-4 hover:bg-[#e04343] transition sm:mt-3">
+      Login
+    </button>
+
+    <div class="under flex justify-center items-center gap-2 mt-3 font-['Inria_Serif'] text-sm sm:text-base text-black whitespace-nowrap">
+      <p>Don't have an account?</p>
+      <a href="register.html" class="text-[#3E41F9] hover:underline font-semibold">Register</a>
+    </div>
+  </form>
+
+  <div id="notification" class="fixed bottom-5 right-5 hidden px-4 py-3 rounded shadow-lg text-white max-w-xs"></div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!username || !password) {
+        showNotification("❌ Please enter both fields", false);
+        return;
+      }
+
+      try {
+        const res = await fetch("https://team-work-30tj.onrender.com/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showNotification("✅ Login successful! Redirecting...", true);
+          setTimeout(() => window.location.href = "index.html", 1500);
+        } else {
+          showNotification("❌ " + (data.message || "Login failed"), false);
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("⚠ Error connecting to server", false);
+      }
+    });
+
+    function showNotification(message, isSuccess = true) {
+      const notification = document.getElementById("notification");
+      notification.textContent = message;
+      notification.className = `fixed bottom-5 right-5 px-4 py-3 rounded shadow-lg text-white max-w-xs ${isSuccess ? "bg-green-500" : "bg-red-500"}`;
+      setTimeout(() => notification.classList.add("hidden"), 3000);
+    }
+  </script>
+</body>
+</html>
