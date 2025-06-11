@@ -207,37 +207,37 @@
 </head>
 <body>
   <header>
-    <h1><i class="fas fa-shopping-bag"></i>SINO BOUR - Finaliser ma commande</h1>
+    <h1><i class="fas fa-shopping-bag"></i>SINO BOUR - Complete my order</h1>
   </header>
 
   <main class="checkout-container">
     <!-- Formulaire client -->
     <section class="checkout-form">
-      <h2><i class="fas fa-user-circle"></i>Informations Client</h2>
+      <h2><i class="fas fa-user-circle"></i>Customer Information</h2>
       <form id="orderForm">
         <div class="form-group">
-          <input type="text" name="prenom" placeholder="Prénom" required>
-          <span class="error-message">Ce champ est requis</span>
+          <input type="text" name="prenom" placeholder="Surname" required>
+          <span class="error-message">This field is required</span>
         </div>
         <div class="form-group">
-          <input type="text" name="nom" placeholder="Nom" required>
-          <span class="error-message">Ce champ est requis</span>
+          <input type="text" name="nom" placeholder="Name" required>
+          <span class="error-message">This field is required</span>
         </div>
         <div class="form-group full-width">
-          <input type="email" name="email" placeholder="Adresse email" required>
-          <span class="error-message">Email invalide</span>
+          <input type="email" name="email" placeholder="Email Address" required>
+          <span class="error-message">Invalid Email</span>
         </div>
         <div class="form-group full-width">
-          <input type="tel" name="telephone" placeholder="Numéro de téléphone" required>
-          <span class="error-message">Numéro invalide</span>
+          <input type="tel" name="telephone" placeholder="Phone Number" required>
+          <span class="error-message">Invalid Number</span>
         </div>
         <div class="form-group full-width">
-          <input type="text" name="adresse" placeholder="Adresse complète" required>
-          <span class="error-message">Adresse requise</span>
+          <input type="text" name="adresse" placeholder="Full address" required>
+          <span class="error-message">Address required</span>
         </div>
         <div class="form-group full-width">
           <select name="ville" required>
-            <option value="">-- Sélectionnez votre ville --</option>
+            <option value="">-- Select your city --</option>
             <option value="N'Djamena">N'Djamena</option>
             <option value="Abeché">Abeché</option>
             <option value="Moundou">Moundou</option>
@@ -245,20 +245,20 @@
         </div>
         <div class="form-group full-width">
           <select name="paiement" required>
-            <option value="">-- Mode de paiement --</option>
-            <option value="livraison">Paiement à la livraison</option>
+            <option value="">-- Payment Method --</option>
+            <option value="livraison">Cash on Delivery</option>
             <option value="mobilemoney">Mobile Money</option>
           </select>
         </div>
         <button type="submit">
-          <i class="fas fa-check-circle"></i>Confirmer la commande
+          <i class="fas fa-check-circle"></i>Confirm Order
         </button>
       </form>
     </section>
 
     <!-- Récapitulatif Panier -->
     <section class="checkout-summary">
-      <h2><i class="fas fa-shopping-cart"></i>Mon Panier</h2>
+      <h2><i class="fas fa-shopping-cart"></i>My Cart</h2>
       <div id="cartItems"></div>
       <p class="total">Total : <span id="totalPrice">0 FCFA</span></p>
     </section>
@@ -283,7 +283,7 @@
        if (cart.length === 0) {
           cartItemsDiv.innerHTML = `<div class="empty-cart">
              <i class="fas fa-shopping-cart"></i>
-             <p>Votre panier est vide</p>
+             <p>Your Cart is Empty</p>
           </div>`;
        } else {
           cart.forEach(item => {
@@ -351,7 +351,7 @@
              if (!result.success) {
                 alert("Erreur côté serveur : " + result.message);
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmer la commande`;
+                submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirm Order`;
                 return;
              }
     
@@ -371,7 +371,7 @@
              console.error(error);
              alert("Une erreur est survenue pendant le traitement.");
              submitBtn.disabled = false;
-             submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmer la commande`;
+             submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> Confirm Order`;
           }
        });
     });

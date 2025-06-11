@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panier - SINO BOUR</title>
+  <title>Cart - SINO BOUR</title>
   <style>
     :root {
       --primary-color: #2a2a2a;
@@ -187,18 +187,18 @@
 
   <div class="cart-container">
     <div class="cart-header">
-      <h1>Votre Panier</h1>
+      <h1>Your Cart</h1>
     </div>
 
     <div id="cart-item"></div>
-    <div id="empty-cart" class="empty-cart">Votre panier est vide.</div>
+    <div id="empty-cart" class="empty-cart">Your Cart is Empty</div>
 
     <div id="cart-summary" class="cart-summary" style="display: none;">
       <div class="total">Total : <span id="cart-total">0</span> FCFA</div>
-      <button class="clear-cart" onclick="viderPanier()">Vider le Panier</button>
+      <button class="clear-cart" onclick="viderPanier()">Empty Cart</button>
     </div>
 
-    <button class="validate-order-btn" onclick="validerCommande()">Valider la commande</button>
+    <button class="validate-order-btn" onclick="validerCommande()">Place order</button>
   </div>
 
   <script>
@@ -238,13 +238,13 @@
 			<img src="${produit.image}" alt="${produit.titre || 'Produit'}">
 			<div class="cart-item-details">
 			  <h2>${produit.titre || 'Produit sans nom'}</h2>
-				<p>Taille / Stockage : ${produit.taille || "Standard"}</p>
-				<p>Couleur : ${produit.qualite || 'Standard'}</p>
-				<p>Quantité : ${quantite}</p>
-				<p>Prix unitaire : ${formatPrix(prix)} FCFA</p>
-				<p>Sous-total : ${formatPrix(sousTotal)} FCFA</p>
+				<p>Size / Storage : ${produit.taille || "Standard"}</p>
+				<p>Color : ${produit.qualite || 'Standard'}</p>
+				<p>Quantity : ${quantite}</p>
+				<p>Unit price : ${formatPrix(prix)} FCFA</p>
+				<p>Subtotal : ${formatPrix(sousTotal)} FCFA</p>
 			  <div class="cart-item-actions">
-				<button class="remove-item" onclick="supprimerDuPanier(${index})">Supprimer</button>
+				<button class="remove-item" onclick="supprimerDuPanier(${index})">Delete</button>
 			  </div>
 			</div>
 		  `;
