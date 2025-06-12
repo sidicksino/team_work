@@ -4,16 +4,28 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 require('dotenv').config();
-
+const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(express.static(path.join(__dirname, 'public'))); // en premier
 app.use(cors());
-app.use(bodyParser.json());
 
-// Servir les fichiers statiques (comme admin.html, index.html)
-app.use(express.static(path.join(__dirname, 'public')));
+// SESSION DOIT ÊTRE PLACÉ AVANT bodyParser
+app.use(session({
+  secret: 'sidick_secret_123',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 86400000
+  }
+}));
+
+// Body parser ensuite
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // optionnel mais utile
 
 // Route GET racine
 app.get("/", (req, res) => {
@@ -28,6 +40,17 @@ const db = mysql.createPool({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
+
+
+app.use(session({
+  secret: 'ton_secret_ici',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // à true si HTTPS
+    maxAge: 1000 * 60 * 60 * 24 // 1 jour
+  }
+}));
 
 // Route POST pour enregistrer une commande
 app.post("/api/commandes", (req, res) => {
