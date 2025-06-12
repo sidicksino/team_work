@@ -42,16 +42,6 @@ const db = mysql.createPool({
 });
 
 
-app.use(session({
-  secret: 'ton_secret_ici',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, // à true si HTTPS
-    maxAge: 1000 * 60 * 60 * 24 // 1 jour
-  }
-}));
-
 // Route POST pour enregistrer une commande
 app.post("/api/commandes", (req, res) => {
   const {
