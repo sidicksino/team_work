@@ -30,11 +30,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connexion à la base de données
 const db = mysql.createPool({
-  host: process.env.DB_HOST || "sql.freesqldatabase.com",
-  port: process.env.DB_PORT || 3306,
-  user: process.env.DB_USER || "user",
-  password: process.env.DB_PASS || "password",
-  database: process.env.DB_NAME || "dbname",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 // Middleware d'authentification
