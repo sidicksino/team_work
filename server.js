@@ -113,6 +113,7 @@ app.post("/register", async (req, res) => {
 });
 
 // Route POST /login
+// Route POST /login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -123,7 +124,7 @@ app.post("/login", async (req, res) => {
   const sql = "SELECT * FROM users WHERE username = ?";
   db.query(sql, [username], async (err, results) => {
     if (err) {
-      console.error("Erreur MySQL :", err); // <-- POUR LOGS RENDER
+      console.error("Erreur MySQL :", err);
       return res.status(500).json({ success: false, message: "Server error." });
     }
 
@@ -139,9 +140,23 @@ app.post("/login", async (req, res) => {
         return res.status(401).json({ success: false, message: "Invalid credentials." });
       }
 
-      res.json({ success: true, message: "Login successful." });
+      // Sauvegarder l'utilisateur dans la session
+      req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        location: user.location,
+      };
+
+      // Réponse avec redirection
+      res.json({
+        success: true,
+        message: "Login successful.",
+        redirect: "/users_dashboard.html"
+      });
+
     } catch (compareError) {
-      console.error("Erreur bcrypt :", compareError); // <-- POUR LES ERREURS DE COMPARAISON
+      console.error("Erreur bcrypt :", compareError);
       return res.status(500).json({ success: false, message: "Server error." });
     }
   });
