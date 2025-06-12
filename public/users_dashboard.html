@@ -1029,7 +1029,7 @@
           // Fonction pour charger les commandes depuis l'API
   async function loadOrders() {
     try {
-      const response = await fetch('http://localhost:3000/admin/commandes');
+      const response = await fetch('https://team-work-30tj.onrender.com/admin/commandes');
       const orders = await response.json();
 
       const tbody = document.querySelector('#orders tbody');
@@ -1074,23 +1074,23 @@
 
     // Fonction pour récupérer les info utilisateur
     async function loadUserInfo() {
-    try {
-      const response = await fetch('/api/user');
-      const data = await response.json();
+        try {
+            const response = await fetch('/api/user', { credentials: 'include' });
+            const data = await response.json();
 
-      if (data.loggedIn) {
-        const user = data.user;
-        document.querySelector('.user-info h3').textContent = user.username;
-        document.querySelector('.user-info p').textContent = `Client depuis ${new Date().getFullYear()}`;
-        document.querySelector('.user-avatar').textContent = user.username.charAt(0).toUpperCase();
-      } else {
-        window.location.href = '/'; // Redirige si pas connecté
-      }
-    } catch (error) {
-      console.error('Erreur lors du chargement des données utilisateur', error);
-      window.location.href = '/';
-    }
-  }
+            if (data.loggedIn) {
+            const user = data.user;
+            document.querySelector('.user-info h3').textContent = user.username;
+            document.querySelector('.user-info p').textContent = `Client depuis ${new Date().getFullYear()}`;
+            document.querySelector('.user-avatar').textContent = user.username.charAt(0).toUpperCase();
+            } else {
+            window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Erreur lors du chargement des données utilisateur', error);
+            window.location.href = '/';
+        }
+        }
 
   // Appel au chargement de la page
   window.addEventListener('DOMContentLoaded', loadUserInfo);

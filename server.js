@@ -162,10 +162,15 @@ app.post("/login", async (req, res) => {
       };
 
       // Réponse avec redirection
-      res.json({
-        success: true,
-        message: "Login successful.",
-        redirect: "/users_dashboard.html"
+      req.session.save(err => {
+        if (err) {
+          return res.status(500).json({ success: false, message: "Session save failed." });
+        }
+        res.json({
+          success: true,
+          message: "Login successful.",
+          redirect: "/users_dashboard.html"
+        });
       });
 
     } catch (compareError) {
@@ -173,6 +178,14 @@ app.post("/login", async (req, res) => {
       return res.status(500).json({ success: false, message: "Server error." });
     }
   });
+});
+
+app.get('/api/user', (req, res) => {
+  if (req.session && req.session.user) {
+    res.json({ loggedIn: true, user: req.session.user });
+  } else {
+    res.json({ loggedIn: false });
+  }
 });
 
 // Route GET /api/commandes — Récupérer toutes les commandes
