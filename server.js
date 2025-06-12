@@ -23,12 +23,6 @@ app.use(session({
   }
 }));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
 // Body parser ensuite
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // optionnel mais utile
@@ -55,24 +49,23 @@ app.post("/api/commandes", (req, res) => {
     adresse, ville, paiement, produits, total
   } = req.body;
 
-  // Récupérer l'utilisateur connecté via la session
-  const user_id = req.session.user?.id || null;
-
   const sql = `
     INSERT INTO commandes 
-    (user_id, prenom, nom, email, telephone, adresse, ville, paiement, produits, total) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (prenom, nom, email, telephone, adresse, ville, paiement, produits, total) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   db.query(
     sql,
-    [user_id, prenom, nom, email, telephone, adresse, ville, paiement, JSON.stringify(produits), total],
+    [prenom, nom, email, telephone, adresse, ville, paiement, JSON.stringify(produits), total],
     (err, result) => {
       if (err) {
         console.error("❌ Erreur SQL:", err.message);
-        return res.status(500).json({ message: "Erreur lors de l'enregistrement." });
+        res.status(500).json({ message: "Erreur lors de l'enregistrement." });
+      } else {
+        console.log("✅ Commande enregistrée !");
+        res.status(200).json({ success: true, message: "Commande enregistrée avec succès." });
       }
-      res.status(200).json({ success: true, message: "Commande enregistrée avec succès." });
     }
   );
 });
@@ -99,15 +92,8 @@ app.post("/admin/login", (req, res) => {
   
   // Route /admin/commandes (pour récupérer toutes les commandes)
   app.get("/admin/commandes", (req, res) => {
-    if (!req.session.user) {
-      return res.status(401).json({ success: false, message: "Non autorisé" });
-    }
-  
-    const userId = req.session.user.id;
-  
-    const sql = "SELECT * FROM commandes WHERE user_id = ? ORDER BY id DESC";
-  
-    db.query(sql, [userId], (err, results) => {
+    const sql = "SELECT * FROM commandes ORDER BY id DESC";
+    db.query(sql, (err, results) => {
       if (err) {
         console.error("❌ Erreur SQL GET Commandes:", err.message);
         return res.status(500).json({ success: false, message: "Erreur serveur." });
