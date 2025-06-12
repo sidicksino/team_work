@@ -57,7 +57,7 @@
       }
 
       try {
-        const res = await fetch("https://team-work-30tj.onrender.com/login", {
+        const res = await fetch("https://team-work-30tj.onrender.com/login",  {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password })
@@ -67,7 +67,7 @@
 
         if (data.success) {
           showNotification("✅ Login successful! Redirecting...", true);
-          setTimeout(() => window.location.href = "index.html", 1500);
+          setTimeout(() => window.location.href = data.redirect || "users_dashboard.html", 1500);
         } else {
           showNotification("❌ " + (data.message || "Login failed"), false);
         }
