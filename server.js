@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors({
   credentials: true,
-  origin: "https://team-work-30tj.onrender.com"  // Remplacez par votre domaine
+  origin: "https://team-work-30tj.onrender.com" 
 }));
 app.use(session({
   secret: "sidick_secret_123",

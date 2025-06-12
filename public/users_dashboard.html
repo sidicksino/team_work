@@ -1027,83 +1027,84 @@
 
 
           // Fonction pour charger les commandes depuis l'API
-    // Fonction pour charger les commandes
-    async function loadOrders() {
-      try {
-        const response = await fetch("/admin/commandes", {
-          credentials: "include" // 👈 Envoie le cookie de session
-        });
+  // Fonction pour charger les commandes
+  async function loadOrders() {
+    try {
+      const response = await fetch("/admin/commandes", {
+        credentials: 'include' // 👈 Envoie le cookie de session
+      });
 
-        const orders = await response.json();
-        const tbody = document.querySelector("#orders");
-        tbody.innerHTML = "";
+      const orders = await response.json();
+      const tbody = document.querySelector('#orders tbody');
+      tbody.innerHTML = '';
 
-        if (orders.length === 0) {
-          const row = document.createElement("tr");
-          row.innerHTML = `<td colspan="6" class="text-center">Aucune commande trouvée</td>`;
-          tbody.appendChild(row);
-          return;
-        }
-
-        orders.forEach(order => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${order.id}</td>
-            <td>${order.prenom} ${order.nom}</td>
-            <td>${new Date(order.date_commande).toLocaleDateString()}</td>
-            <td>${parseFloat(order.total).toFixed(2)} €</td>
-            <td><span class="status status-shipped">En transit</span></td>
-            <td><button class="btn btn-outline">Suivre</button></td>
-          `;
-          tbody.appendChild(row);
-        });
-      } catch (error) {
-        console.error("Erreur lors du chargement des commandes :", error);
-        const row = document.createElement("tr");
-        row.innerHTML = `<td colspan="6" class="text-center text-red-500">Erreur de chargement</td>`;
+      if (orders.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="6" class="text-center">Aucune commande trouvée</td>`;
         tbody.appendChild(row);
+        return;
       }
+
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.prenom} ${order.nom}</td>
+          <td>${new Date(order.date_commande).toLocaleDateString()}</td>
+          <td>${parseFloat(order.total).toFixed(2)} €</td>
+          <td><span class="status status-shipped">En transit</span></td>
+          <td><button class="btn btn-outline">Suivre</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+    } catch (error) {
+      console.error('Erreur lors du chargement des commandes :', error);
+      const row = document.createElement('tr');
+      row.innerHTML = `<td colspan="6" class="text-center text-red-500">Erreur de chargement</td>`;
+      tbody.appendChild(row);
+    }
+  }
+
+  // Fonction pour charger les info utilisateur
+  async function loadUserInfo() {
+    try {
+      const response = await fetch("/api/user", {
+        credentials: 'include'
+      });
+      const data = await response.json();
+
+      if (data.loggedIn) {
+        const user = data.user;
+        document.querySelector(".user-info h3").textContent = user.username;
+        document.querySelector(".user-info p").textContent = `Client depuis ${new Date().getFullYear()}`;
+        document.querySelector(".user-avatar").textContent = user.username.charAt(0).toUpperCase();
+      } else {
+        window.location.href = "/login.html";
+      }
+    } catch (error) {
+      console.error("Erreur lors du chargement des données utilisateur :", error);
+      window.location.href = "/";
+    }
+  }
+
+  // Événements DOM
+  window.addEventListener('DOMContentLoaded', () => {
+    loadUserInfo();
+
+    const ordersSection = document.getElementById('orders');
+    if (ordersSection && ordersSection.classList.contains('active')) {
+      loadOrders();
     }
 
-    // Fonction pour charger les informations utilisateur
-    async function loadUserInfo() {
-      try {
-        const response = await fetch("/api/user", {
-          credentials: "include"
-        });
-        const data = await response.json();
-
-        if (data.loggedIn) {
-          const user = data.user;
-          document.querySelector(".user-info h3").textContent = user.username;
-          document.querySelector(".user-info p").textContent = `Client depuis ${new Date().getFullYear()}`;
-          document.querySelector(".user-avatar").textContent = user.username.charAt(0).toUpperCase();
-        } else {
-          window.location.href = "/";
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (item.getAttribute('data-section') === 'orders') {
+          loadOrders();
         }
-      } catch (error) {
-        console.error("Erreur lors du chargement de l'utilisateur :", error);
-        window.location.href = "/";
-      }
-    }
-
-    // Charger les données au démarrage
-    document.addEventListener("DOMContentLoaded", () => {
-      loadUserInfo();
-      
-      const ordersSection = document.getElementById("orders");
-      if (ordersSection && ordersSection.closest(".dashboard-section").classList.contains("active")) {
-        loadOrders();
-      }
-
-      document.querySelectorAll(".menu-item").forEach(item => {
-        item.addEventListener("click", () => {
-          if (item.getAttribute("data-section") === "orders") {
-            loadOrders();
-          }
-        });
       });
     });
+  });
     </script>
 </body>
 </html>
