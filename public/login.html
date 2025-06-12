@@ -67,6 +67,7 @@
 
         if (data.success) {
           showNotification("✅ Login successful! Redirecting...", true);
+          console.log("Redirect vers :", data.redirect);
           setTimeout(() => window.location.href = data.redirect || "users_dashboard.html", 1500);
         } else {
           showNotification("❌ " + (data.message || "Login failed"), false);
