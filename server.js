@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const app = express();
@@ -11,20 +12,24 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(cors({
-  credentials: true,
-  origin: "https://team-work-30tj.onrender.com" 
+  origin: "https://team-work-30tj.onrender.com",
+  credentials: true
 }));
+
 app.use(session({
   secret: "sidick_secret_123",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: true,      // IMPORTANT: Render utilise HTTPS
     httpOnly: true,
+    sameSite: 'none',  // pour que CORS + cookies fonctionnent ensemble
     maxAge: 86400000
   }
 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -42,6 +47,11 @@ function ensureAuthenticated(req, res, next) {
   if (req.session?.user) return next();
   res.status(401).json({ success: false, message: "Non autorisé" });
 }
+
+// Route GET racine pour tester si serveur répond
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
 // Route POST /login
 app.post("/login", async (req, res) => {
@@ -89,7 +99,7 @@ app.post("/login", async (req, res) => {
   });
 });
 
-// Route POST /api/commandes
+// Route POST /api/commandes (exemple)
 app.post("/api/commandes", ensureAuthenticated, (req, res) => {
   const {
     prenom, nom, email, telephone,
@@ -117,7 +127,7 @@ app.post("/api/commandes", ensureAuthenticated, (req, res) => {
   );
 });
 
-// Route GET /admin/commandes
+// Route GET commandes utilisateur (exemple)
 app.get("/admin/commandes", ensureAuthenticated, (req, res) => {
   const userId = req.session.user.id;
   const sql = "SELECT * FROM commandes WHERE user_id = ? AND user_id IS NOT NULL ORDER BY id DESC";
@@ -128,7 +138,7 @@ app.get("/admin/commandes", ensureAuthenticated, (req, res) => {
   });
 });
 
-// Route GET /api/user
+// Route GET user info (exemple)
 app.get('/api/user', (req, res) => {
   if (req.session?.user) {
     res.json({ loggedIn: true, user: req.session.user });
@@ -137,7 +147,7 @@ app.get('/api/user', (req, res) => {
   }
 });
 
-// Lancement du serveur
+// Démarrage serveur
 app.listen(PORT, () => {
   console.log(`🚀 Serveur lancé : http://localhost:${PORT}`);
 });
