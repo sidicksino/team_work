@@ -579,34 +579,34 @@
             <div class="user-avatar">S</div>
             <div class="user-info">
                 <h3>Sidick</h3>
-                <p>Client depuis janvier 2024</p>
+                <p>Client since 2025</p>
             </div>
         </div>
         
         <div class="sidebar-menu">
             <div class="menu-item active" data-section="orders">
                 <i class="fas fa-box"></i>
-                <span class="menu-text">Mes Commandes</span>
+                <span class="menu-text">My Orders</span>
             </div>
             <div class="menu-item" data-section="delivery">
                 <i class="fas fa-truck"></i>
-                <span class="menu-text">Suivi de Livraison</span>
+                <span class="menu-text">Delivery Tracking</span>
             </div>
             <div class="menu-item" data-section="wishlist">
                 <i class="fas fa-heart"></i>
-                <span class="menu-text">Mes Favoris</span>
+                <span class="menu-text">My Favorites</span>
             </div>
             <div class="menu-item" data-section="profile">
                 <i class="fas fa-user"></i>
-                <span class="menu-text">Mon Profil</span>
+                <span class="menu-text">My Profile</span>
             </div>
             <div class="menu-item" data-section="addresses">
                 <i class="fas fa-home"></i>
-                <span class="menu-text">Adresses</span>
+                <span class="menu-text">Addresses</span>
             </div>
             <div class="menu-item" data-section="payment">
                 <i class="fas fa-credit-card"></i>
-                <span class="menu-text">Paiement</span>
+                <span class="menu-text">Payment</span>
             </div>
             <div class="menu-item" data-section="support">
                 <i class="fas fa-headset"></i>
@@ -614,7 +614,7 @@
             </div>
             <div class="menu-item logout" id="logout">
                 <i class="fas fa-sign-out-alt"></i>
-                <span class="menu-text">Déconnexion</span>
+                <span class="menu-text">Logout</span>
             </div>
         </div>
     </div>
@@ -622,7 +622,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h1>Tableau de Bord</h1>
+            <h1>Dashboard</h1>
             <div class="header-actions">
                 <div class="notification-btn">
                     <i class="fas fa-bell"></i>
@@ -636,17 +636,18 @@
         <!-- Orders Section -->
         <div class="dashboard-section active" id="orders">
             <div class="section-header">
-                <h2><i class="fas fa-box"></i> Mes Commandes</h2>
+                <h2><i class="fas fa-box"></i> My Orders</h2>
             </div>
             
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Commande</th>
+                            <th>Commande_id</th>
+                            <th>client name</th>
                             <th>Date</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
+                            <th>Amount</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -660,12 +661,12 @@
         <!-- Delivery Tracking Section -->
         <div class="dashboard-section" id="delivery">
             <div class="section-header">
-                <h2><i class="fas fa-truck"></i> Suivi de Livraison</h2>
+                <h2><i class="fas fa-truck"></i>Delivery Tracking</h2>
             </div>
             
             <div class="tracking-container">
-                <h3>Commande #CMD-20230618</h3>
-                <p>Livraison estimée: 25/06/2025</p>
+                <h3>Order #CMD-20230618</h3>
+                <p>Estimated Delivery: 06/25/2025</p>
                 
                 <div class="tracking-steps">
                     <div class="progress-bar" style="width: 75%;"></div>
@@ -673,31 +674,31 @@
                         <div class="step-icon">
                             <i class="fas fa-clipboard-check"></i>
                         </div>
-                        <p>Confirmée</p>
+                        <p>Confirmed</p>
                     </div>
                     <div class="step completed">
                         <div class="step-icon">
                             <i class="fas fa-box"></i>
                         </div>
-                        <p>Préparée</p>
+                        <p>Prepared</p>
                     </div>
                     <div class="step active">
                         <div class="step-icon">
                             <i class="fas fa-shipping-fast"></i>
                         </div>
-                        <p>En transit</p>
+                        <p>In Transit</p>
                     </div>
                     <div class="step">
                         <div class="step-icon">
                             <i class="fas fa-home"></i>
                         </div>
-                        <p>Livrée</p>
+                        <p>Delivered</p>
                     </div>
                 </div>
                 
                 <div class="map-placeholder" style="height: 300px; background: #e9ecef; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c757d; margin-top: 30px;">
                     <i class="fas fa-map-marker-alt fa-3x"></i>
-                    <p>Carte de suivi en temps réel</p>
+                    <p>Real-time Tracking Map</p>
                 </div>
             </div>
         </div>
@@ -705,7 +706,7 @@
         <!-- Wishlist Section -->
         <div class="dashboard-section" id="wishlist">
             <div class="section-header">
-                <h2><i class="fas fa-heart"></i> Mes Favoris</h2>
+                <h2><i class="fas fa-heart"></i>My Favorites</h2>
             </div>
             
             <div class="cards-grid">
@@ -714,10 +715,10 @@
                         <i class="fas fa-tshirt"></i>
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">T-shirt Premium</h3>
-                        <div class="card-price">29,99 €</div>
+                        <h3 class="card-title">Premium T-shirt</h3>
+                        <div class="card-price">5000 FCFA</div>
                         <div class="card-actions">
-                            <button class="btn btn-primary">Ajouter au panier</button>
+                            <button class="btn btn-primary">Add to Cart</button>
                             <button class="btn btn-outline">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -968,9 +969,9 @@
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 if(this.id === 'logout') {
-                    if(confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                        alert('Vous avez été déconnecté avec succès.');
-                        window.location.href = '#';
+                    if(confirm('Are you sure you want to log out?')) {
+                        alert('You have been successfully logged out.');
+                        window.location.href = 'login.html';
                     }
                     return;
                 }
@@ -1051,7 +1052,7 @@
           <td>${order.id}</td>
           <td>${order.prenom} ${order.nom}</td>
           <td>${new Date(order.date_commande).toLocaleDateString()}</td>
-          <td>${parseFloat(order.total).toFixed(2)} €</td>
+          <td>${parseFloat(order.total).toFixed(2)} FCFA</td>
           <td><span class="status status-shipped">En transit</span></td>
           <td><button class="btn btn-outline">Suivre</button></td>
         `;
