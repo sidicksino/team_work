@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors({
   credentials: true,
-  origin: "https://team-work-30tj.onrender.com"  // Remplacez par votre domaine
+  origin: "https://team-work-30tj.onrender.com/"  // Remplacez par votre domaine
 }));
 app.use(session({
   secret: "sidick_secret_123",
@@ -42,7 +42,26 @@ function ensureAuthenticated(req, res, next) {
   if (req.session?.user) return next();
   res.status(401).json({ success: false, message: "Non autorisé" });
 }
+// Route POST /register
+app.post("/register", async (req, res) => {
+  const { firstName, lastName, email, password, location } = req.body;
 
+  if (!firstName || !lastName || !email || !password || !location) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = "INSERT INTO users (username, password, email, location) VALUES (?, ?, ?, ?)";
+    db.query(sql, [`${firstName} ${lastName}`, hashedPassword, email, location], (err) => {
+      if (err) return res.status(500).json({ success: false, message: "Error creating user." });
+      res.json({ success: true, message: "User registered successfully." });
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+});
 // Route POST /login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
