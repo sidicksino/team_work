@@ -266,11 +266,10 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const utilisateur = localStorage.getItem('utilisateur'); // ou sessionStorage
+      const utilisateur = JSON.parse(localStorage.getItem('utilisateur'));
       if (!utilisateur) {
-        alert("Vous devez être connecté pour passer une commande !");
-        window.location.href = "login.html"; // rediriger vers page login
-        return;
+        window.location.href = "login.html?redirect=" + encodeURIComponent(window.location.pathname);
+        return; // stoppe l’exécution pour ne pas charger le reste
       }
       
        const cart = JSON.parse(localStorage.getItem('panier')) || [];
@@ -382,8 +381,5 @@
        });
     });
     </script>
-    
-
-
 </body>
 </html>

@@ -590,6 +590,10 @@
             </div>
             <div class="menu-item" data-section="delivery">
                 <i class="fas fa-truck"></i>
+                <span class="menu-text">Shop Now</span>
+            </div>
+            <div class="menu-item" data-section="delivery">
+                <i class="fas fa-truck"></i>
                 <span class="menu-text">Delivery Tracking</span>
             </div>
             <div class="menu-item" data-section="wishlist">
@@ -969,30 +973,31 @@
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 if (this.id === 'logout') {
-                    if (confirm('Are you sure you want to log out?')) {
-                        // Appel de la route /logout côté serveur
-                        fetch('/logout', {
-                            method: 'GET',
-                            credentials: 'include'
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Supprimer les données utilisateur côté client
-                                localStorage.removeItem('utilisateur');
-                                localStorage.removeItem('panier');
-                                alert('You have been successfully logged out.');
-                                window.location.href = 'index.html';
-                            } else {
-                                alert("Logout failed: " + data.message);
-                            }
-                        })
-                        .catch(err => {
-                            console.error("Logout error:", err);
-                            alert("An error occurred while logging out.");
-                        });
+                if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                    fetch('/logout', {
+                    method: 'GET',
+                    credentials: 'include'
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                    if (data.success) {
+                        localStorage.removeItem('utilisateur');
+                        localStorage.removeItem('panier');
+                        // Notification plus légère que alert
+                        showNotification('Vous êtes déconnecté.', true);
+                        setTimeout(() => {
+                        window.location.href = 'index.html';
+                        }, 1500);
+                    } else {
+                        showNotification("Échec de la déconnexion : " + data.message, false);
                     }
-                    return;
+                    })
+                    .catch(err => {
+                    console.error("Erreur logout :", err);
+                    showNotification("Erreur lors de la déconnexion.", false);
+                    });
+                }
+                return;
                 }
                 
                 // Mise à jour de l'élément actif dans la sidebar
