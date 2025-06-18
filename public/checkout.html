@@ -266,6 +266,12 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const utilisateur = localStorage.getItem('utilisateur'); // ou sessionStorage
+      if (!utilisateur) {
+        alert("Vous devez être connecté pour passer une commande !");
+        window.location.href = "login.html"; // rediriger vers page login
+        return;
+      }
       
        const cart = JSON.parse(localStorage.getItem('panier')) || [];
        const cartItemsDiv = document.getElementById('cartItems');

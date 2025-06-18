@@ -968,10 +968,29 @@
         // Navigation entre les sections
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function() {
-                if(this.id === 'logout') {
-                    if(confirm('Are you sure you want to log out?')) {
-                        alert('You have been successfully logged out.');
-                        window.location.href = 'login.html';
+                if (this.id === 'logout') {
+                    if (confirm('Are you sure you want to log out?')) {
+                        // Appel de la route /logout côté serveur
+                        fetch('/logout', {
+                            method: 'GET',
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Supprimer les données utilisateur côté client
+                                localStorage.removeItem('utilisateur');
+                                localStorage.removeItem('panier');
+                                alert('You have been successfully logged out.');
+                                window.location.href = 'index.html';
+                            } else {
+                                alert("Logout failed: " + data.message);
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Logout error:", err);
+                            alert("An error occurred while logging out.");
+                        });
                     }
                     return;
                 }

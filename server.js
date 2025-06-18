@@ -156,6 +156,16 @@ app.get('/api/user', (req, res) => {
   }
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Erreur lors de la déconnexion." });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ success: true, message: "Déconnecté avec succès." });
+  });
+});
+
 // Lancement du serveur
 app.listen(PORT, () => {
   console.log(`🚀 Serveur lancé : http://localhost:${PORT}`);
